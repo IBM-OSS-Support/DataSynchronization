@@ -299,7 +299,15 @@
                 <artifactId>commons-codec</artifactId>
                 <version>${codec.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.ibm.db2.jcc</groupId>
+                <artifactId>db2jcc</artifactId>
+                <version>db2jcc4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.seatunnel</groupId>
+                <artifactId>seatunnel-api</artifactId>
+            </dependency>
             <dependency>
                 <groupId>org.apache.flink</groupId>
                 <artifactId>flink-shaded-hadoop-2</artifactId>
