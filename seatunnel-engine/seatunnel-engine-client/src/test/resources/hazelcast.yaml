@@ -19,14 +19,14 @@ hazelcast:
   cluster-name: seatunnel
   network:
     join:
-      tcp-ip:
+      multicast:
+        enabled: false
+      aws:
         enabled: true
-        member-list:
-          - localhost
     port:
       auto-increment: true
-      port-count: 10
-      port: 5801
+      port-count: 100
+      port: 5701
   map:
     map-name-template:
       map-store:

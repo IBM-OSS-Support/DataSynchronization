@@ -26,14 +26,14 @@ hazelcast:
         DATA:
           enabled: true
     join:
-      tcp-ip:
+      multicast:
+        enabled: false
+      aws:
         enabled: true
-        member-list:
-          - localhost
     port:
       auto-increment: true
       port-count: 100
-      port: 5801
+      port: 5701
   properties:
     hazelcast.invocation.max.retry.count: 20
     hazelcast.tcp.join.port.try.count: 30
