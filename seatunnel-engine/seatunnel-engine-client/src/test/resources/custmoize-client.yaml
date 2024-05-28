@@ -20,18 +20,18 @@ hazelcast-client:
 
   network:
     cluster-members:
-      - host:5801
-      - host:5802
-      - host:5803
-      - host:5804
-      - host:5805
-      - host:5806
-      - host:5807
-      - host:5808
-      - host:5809
-      - host:5810
-      - host:5811
-      - host:5812
-      - host:5813
-      - host:5814
-      - host:5815
+      - host:5701
+      - host:5702
+      - host:5703
+      - host:5704
+      - host:5705
+      - host:5706
+      - host:5707
+      - host:5708
+      - host:5709
+      - host:5710
+      - host:5711
+      - host:5712
+      - host:5713
+      - host:5714
+      - host:5715

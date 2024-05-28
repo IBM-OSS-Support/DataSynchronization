@@ -19,18 +19,18 @@ hazelcast-client:
   cluster-name: seatunnel
   network:
     cluster-members:
-      - localhost:5801
-      - localhost:5802
-      - localhost:5803
-      - localhost:5804
-      - localhost:5805
-      - localhost:5806
-      - localhost:5807
-      - localhost:5808
-      - localhost:5809
-      - localhost:5810
-      - localhost:5811
-      - localhost:5812
-      - localhost:5813
-      - localhost:5814
-      - localhost:5815
+      - localhost:5701
+      - localhost:5702
+      - localhost:5703
+      - localhost:5704
+      - localhost:5705
+      - localhost:5706
+      - localhost:5707
+      - localhost:5708
+      - localhost:5709
+      - localhost:5710
+      - localhost:5711
+      - localhost:5712
+      - localhost:5713
+      - localhost:5714
+      - localhost:5715

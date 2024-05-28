@@ -11,7 +11,7 @@ completed jobs. The monitoring API is a RESTful API that accepts HTTP requests a
 ## Overview
 
 The monitoring API is backed by a web server that runs as part of the node, each node member can provide RESTful api capability.
-By default, this server listens at port 5801, which can be configured in hazelcast.yaml like :
+By default, this server listens at port 5701, which can be configured in hazelcast.yaml like :
 
 ```yaml
 network:
@@ -30,7 +30,7 @@ network:
     port:
       auto-increment: true
       port-count: 100
-      port: 5801
+      port: 5701
 ```
 
 ## API reference

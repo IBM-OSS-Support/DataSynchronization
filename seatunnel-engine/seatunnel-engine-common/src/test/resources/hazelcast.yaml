@@ -26,7 +26,7 @@ hazelcast:
     port:
       auto-increment: true
       port-count: 100
-      port: 5801
+      port: 5701
   map:
     map-name-template:
       map-store:
