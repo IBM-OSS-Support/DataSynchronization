@@ -216,7 +216,7 @@ In the case of is_exactly_once = "true", Xa transactions are used. This requires
 
 there are some reference value for params above.
 
-|    datasource     |                    driver                    |                                url                                 |             xa_data_source_class_name              |                                                             maven                                                             |
+| datasource        |                    driver                    |                                url                                 | xa_data_source_class_name                          | maven                                                                                                                         |
 |-------------------|----------------------------------------------|--------------------------------------------------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | MySQL             | com.mysql.cj.jdbc.Driver                     | jdbc:mysql://localhost:3306/test                                   | com.mysql.cj.jdbc.MysqlXADataSource                | https://mvnrepository.com/artifact/mysql/mysql-connector-java                                                                 |
 | PostgreSQL        | org.postgresql.Driver                        | jdbc:postgresql://localhost:5432/postgres                          | org.postgresql.xa.PGXADataSource                   | https://mvnrepository.com/artifact/org.postgresql/postgresql                                                                  |
@@ -238,6 +238,8 @@ there are some reference value for params above.
 | OceanBase         | com.oceanbase.jdbc.Driver                    | jdbc:oceanbase://localhost:2881                                    | /                                                  | https://repo1.maven.org/maven2/com/oceanbase/oceanbase-client/2.4.3/oceanbase-client-2.4.3.jar                                |
 | xugu              | com.xugu.cloudjdbc.Driver                    | jdbc:xugu://localhost:5138                                         | /                                                  | https://repo1.maven.org/maven2/com/xugudb/xugu-jdbc/12.2.0/xugu-jdbc-12.2.0.jar                                               |
 | InterSystems IRIS | com.intersystems.jdbc.IRISDriver             | jdbc:IRIS://localhost:1972/%SYS                                    | /                                                  | https://raw.githubusercontent.com/intersystems-community/iris-driver-distribution/main/JDBC/JDK18/intersystems-jdbc-3.8.4.jar |
+| Presto            | io.prestosql.jdbc.PrestoDriver               | jdbc:presto://host:port/catalog                                    | /                                                  | https://mvnrepository.com/artifact/com.facebook.presto/presto-jdbc                                                            |
+| Trino             | io.trino.jdbc.TrinoDriver                    | jdbc:trino://host:port/catalog                                     | /                                                  | https://mvnrepository.com/artifact/io.trino/trino-jdbc                                                                        |
 
 ## Example
 

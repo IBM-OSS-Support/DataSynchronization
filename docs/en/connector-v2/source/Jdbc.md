@@ -90,7 +90,7 @@ The JDBC Source connector supports parallel reading of data from tables. SeaTunn
 
 there are some reference value for params above.
 
-|    datasource     |                       driver                        |                                  url                                   |                                                             maven                                                             |
+| datasource        | driver                                              | url                                                                    | maven                                                                                                                         |
 |-------------------|-----------------------------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | mysql             | com.mysql.cj.jdbc.Driver                            | jdbc:mysql://localhost:3306/test                                       | https://mvnrepository.com/artifact/mysql/mysql-connector-java                                                                 |
 | postgresql        | org.postgresql.Driver                               | jdbc:postgresql://localhost:5432/postgres                              | https://mvnrepository.com/artifact/org.postgresql/postgresql                                                                  |
@@ -114,6 +114,8 @@ there are some reference value for params above.
 | Hive              | org.apache.hive.jdbc.HiveDriver                     | jdbc:hive2://localhost:10000                                           | https://repo1.maven.org/maven2/org/apache/hive/hive-jdbc/3.1.3/hive-jdbc-3.1.3-standalone.jar                                 |
 | xugu              | com.xugu.cloudjdbc.Driver                           | jdbc:xugu://localhost:5138                                             | https://repo1.maven.org/maven2/com/xugudb/xugu-jdbc/12.2.0/xugu-jdbc-12.2.0.jar                                               |
 | InterSystems IRIS | com.intersystems.jdbc.IRISDriver                    | jdbc:IRIS://localhost:1972/%SYS                                        | https://raw.githubusercontent.com/intersystems-community/iris-driver-distribution/main/JDBC/JDK18/intersystems-jdbc-3.8.4.jar |
+| Presto            | io.prestosql.jdbc.PrestoDriver                      | jdbc:presto://host:port/catalog                                        | https://mvnrepository.com/artifact/com.facebook.presto/presto-jdbc                                                            |
+| Trino             | io.trino.jdbc.TrinoDriver                           | jdbc:trino://host:port/catalog                                         | https://mvnrepository.com/artifact/io.trino/trino-jdbc                                                                        |
 
 ## Example
 
