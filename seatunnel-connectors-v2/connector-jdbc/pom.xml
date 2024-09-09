@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.seatunnel</groupId>
@@ -31,6 +32,8 @@
     <properties>
         <mysql.version>8.0.27</mysql.version>
         <postgresql.version>42.4.3</postgresql.version>
+        <presto.version>350</presto.version>
+        <trino.version>445</trino.version>
         <dm-jdbc.version>8.1.2.141</dm-jdbc.version>
         <sqlserver.version>9.2.1.jre8</sqlserver.version>
         <phoenix.version>5.2.5-HBase-2.x</phoenix.version>
@@ -84,6 +87,20 @@
                 <version>${postgis.jdbc.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>io.prestosql</groupId>
+                <artifactId>presto-jdbc</artifactId>
+                <version>${presto.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.trino</groupId>
+                <artifactId>trino-jdbc</artifactId>
+                <version>${trino.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.dameng</groupId>
                 <artifactId>DmJdbcDriver18</artifactId>
@@ -230,6 +247,16 @@
             <groupId>net.postgis</groupId>
             <artifactId>postgis-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.prestosql</groupId>
+            <artifactId>presto-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.trino</groupId>
+            <artifactId>trino-jdbc</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>
