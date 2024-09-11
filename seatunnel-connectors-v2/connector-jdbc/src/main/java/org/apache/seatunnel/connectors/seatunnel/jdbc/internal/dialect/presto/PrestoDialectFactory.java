@@ -17,18 +17,18 @@
 
 package org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.presto;
 
-import com.google.auto.service.AutoService;
-import lombok.NonNull;
 import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDialect;
 import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDialectFactory;
 
+import com.google.auto.service.AutoService;
+import lombok.NonNull;
+
 @AutoService(JdbcDialectFactory.class)
-public class PrestoDialectFactory
-    implements JdbcDialectFactory {
+public class PrestoDialectFactory implements JdbcDialectFactory {
 
     @Override
     public boolean acceptsURL(@NonNull String url) {
-        return url.startsWith("jdbc:presto:") ;
+        return url.startsWith("jdbc:presto:");
     }
 
     @Override

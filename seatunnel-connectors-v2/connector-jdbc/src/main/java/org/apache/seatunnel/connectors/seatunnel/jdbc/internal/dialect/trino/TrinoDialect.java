@@ -23,8 +23,7 @@ import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDiale
 
 import java.util.Optional;
 
-public class TrinoDialect
-    implements JdbcDialect {
+public class TrinoDialect implements JdbcDialect {
     @Override
     public String dialectName() {
         return "Trino";
@@ -41,7 +40,8 @@ public class TrinoDialect
     }
 
     @Override
-    public Optional<String> getUpsertStatement(String database,String tableName, String[] fieldNames, String[] uniqueKeyFields) {
+    public Optional<String> getUpsertStatement(
+            String database, String tableName, String[] fieldNames, String[] uniqueKeyFields) {
         return Optional.empty();
     }
 }

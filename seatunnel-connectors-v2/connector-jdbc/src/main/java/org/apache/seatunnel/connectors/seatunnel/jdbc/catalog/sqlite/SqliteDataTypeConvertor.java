@@ -1,9 +1,12 @@
 package org.apache.seatunnel.connectors.seatunnel.jdbc.catalog.sqlite;
 
-import com.google.auto.service.AutoService;
-import org.apache.seatunnel.api.table.catalog.DataTypeConvertException;
 import org.apache.seatunnel.api.table.catalog.DataTypeConvertor;
-import org.apache.seatunnel.api.table.type.*;
+import org.apache.seatunnel.api.table.catalog.exception.CatalogException;
+import org.apache.seatunnel.api.table.type.BasicType;
+import org.apache.seatunnel.api.table.type.SeaTunnelDataType;
+import org.apache.seatunnel.api.table.type.SqlType;
+
+import com.google.auto.service.AutoService;
 
 import java.util.Collections;
 import java.util.Map;
@@ -21,14 +24,32 @@ public class SqliteDataTypeConvertor implements DataTypeConvertor<String> {
     // Add more SQLite data types as needed
 
     @Override
-    public SeaTunnelDataType<?> toSeaTunnelType(String connectorDataType) throws DataTypeConvertException {
-        // Delegate to the more specific method with an empty properties map
+    public SeaTunnelDataType<?> toSeaTunnelType(String field, String connectorDataType) {
         return toSeaTunnelType(connectorDataType, Collections.emptyMap());
     }
 
     @Override
-    public SeaTunnelDataType<?> toSeaTunnelType(String connectorDataType, Map<String, Object> dataTypeProperties)
-            throws DataTypeConvertException {
+    public SeaTunnelDataType<?> toSeaTunnelType(
+            String field, String connectorDataType, Map<String, Object> dataTypeProperties) {
+        return toSeaTunnelType(connectorDataType, dataTypeProperties);
+    }
+
+    @Override
+    public String toConnectorType(
+            String field,
+            SeaTunnelDataType<?> seaTunnelDataType,
+            Map<String, Object> dataTypeProperties) {
+        return toConnectorType(seaTunnelDataType, dataTypeProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public SeaTunnelDataType<?> toSeaTunnelType(
+            String connectorDataType, Map<String, Object> dataTypeProperties)
+            throws CatalogException {
         checkNotNull(connectorDataType, "connectorDataType cannot be null");
 
         switch (connectorDataType.toUpperCase()) {
@@ -38,16 +59,22 @@ public class SqliteDataTypeConvertor implements DataTypeConvertor<String> {
                 return BasicType.DOUBLE_TYPE;
             case SQLITE_TEXT:
                 return BasicType.STRING_TYPE;
-            // Add cases for additional SQLite data types as necessary
+            case SQLITE_BLOB:
+                return BasicType.BYTE_TYPE;
+                // Add cases for additional SQLite data types as necessary
             default:
                 throw new UnsupportedOperationException(
                         String.format("Doesn't support SQLite type '%s' yet.", connectorDataType));
         }
     }
 
-    @Override
-    public String toConnectorType(SeaTunnelDataType<?> seaTunnelDataType, Map<String, Object> dataTypeProperties)
-            throws DataTypeConvertException {
+    public SqliteDataTypeConvertor() {
+        super();
+    }
+
+    public String toConnectorType(
+            SeaTunnelDataType<?> seaTunnelDataType, Map<String, Object> dataTypeProperties)
+            throws CatalogException {
         checkNotNull(seaTunnelDataType, "seaTunnelDataType cannot be null");
         SqlType sqlType = seaTunnelDataType.getSqlType();
 
@@ -61,10 +88,13 @@ public class SqliteDataTypeConvertor implements DataTypeConvertor<String> {
                 return SQLITE_REAL;
             case STRING:
                 return SQLITE_TEXT;
-            // Map additional SeaTunnel types to SQLite types as necessary
+            case BYTES:
+                return SQLITE_BLOB;
+                // Map additional SeaTunnel types to SQLite types as necessary
             default:
                 throw new UnsupportedOperationException(
-                        String.format("Doesn't support SeaTunnel type '%s' yet.", seaTunnelDataType));
+                        String.format(
+                                "Doesn't support SeaTunnel type '%s' yet.", seaTunnelDataType));
         }
     }
 

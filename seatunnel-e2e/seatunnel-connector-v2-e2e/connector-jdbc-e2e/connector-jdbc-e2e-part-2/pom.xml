@@ -58,7 +58,7 @@
             <scope>test</scope>
         </dependency>
 
-         <dependency>
+        <dependency>
 
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>

@@ -1,110 +1,123 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.apache.seatunnel.connectors.seatunnel.jdbc.catalog.db2;
 
-import com.google.auto.service.AutoService;
-import org.apache.seatunnel.api.table.catalog.DataTypeConvertException;
+import org.apache.seatunnel.api.table.catalog.Column;
 import org.apache.seatunnel.api.table.catalog.DataTypeConvertor;
-import org.apache.seatunnel.api.table.type.*;
+import org.apache.seatunnel.api.table.catalog.PhysicalColumn;
+import org.apache.seatunnel.api.table.converter.BasicTypeDefine;
+import org.apache.seatunnel.api.table.type.SeaTunnelDataType;
+import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.DatabaseIdentifier;
+import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.db2.DB2TypeConverter;
+
+import org.apache.commons.collections4.MapUtils;
+
+import com.google.auto.service.AutoService;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/** @deprecated instead by {@link DB2TypeConverter} */
+@Deprecated
 @AutoService(DataTypeConvertor.class)
 public class Db2DataTypeConvertor implements DataTypeConvertor<String> {
 
-    /* Data type constants for DB2 */
-    private static final String DB2_SMALLINT = "SMALLINT";
-    private static final String DB2_INTEGER = "INTEGER";
-    private static final String DB2_BIGINT = "BIGINT";
-    private static final String DB2_DECIMAL = "DECIMAL";
-    private static final String DB2_REAL = "REAL";
-    private static final String DB2_DOUBLE = "DOUBLE";
-    private static final String DB2_VARCHAR = "VARCHAR";
-    private static final String DB2_CHAR = "CHAR";
-    private static final String DB2_DATE = "DATE";
-    private static final String DB2_TIME = "TIME";
-    private static final String DB2_TIMESTAMP = "TIMESTAMP";
-    // Add more DB2 data types as needed
+    public static final String PRECISION = "precision";
+    public static final String SCALE = "scale";
+    public static final Long DEFAULT_PRECISION = 31L;
+    public static final Integer DEFAULT_SCALE = 0;
 
     @Override
-    public SeaTunnelDataType<?> toSeaTunnelType(String connectorDataType) throws DataTypeConvertException {
-        // Delegate to the more specific method with an empty properties map
-        return toSeaTunnelType(connectorDataType, Collections.emptyMap());
+    public SeaTunnelDataType<?> toSeaTunnelType(String field, String connectorDataType) {
+        return toSeaTunnelType(field, connectorDataType, Collections.emptyMap());
     }
 
     @Override
-    public SeaTunnelDataType<?> toSeaTunnelType(String connectorDataType, Map<String, Object> dataTypeProperties)
-            throws DataTypeConvertException {
-        checkNotNull(connectorDataType, "connectorDataType cannot be null");
+    public SeaTunnelDataType<?> toSeaTunnelType(
+            String field, String connectorDataType, Map<String, Object> dataTypeProperties) {
+        checkNotNull(connectorDataType, "DB2 Type cannot be null");
 
-        switch (connectorDataType) {
-            case DB2_SMALLINT:
-                return BasicType.SHORT_TYPE;
-            case DB2_INTEGER:
-                return BasicType.INT_TYPE;
-            case DB2_BIGINT:
-                return BasicType.LONG_TYPE;
-            case DB2_DECIMAL:
-                Integer precision = dataTypeProperties.containsKey("precision") ? (Integer) dataTypeProperties.get("precision") : 10;
-                Integer scale = dataTypeProperties.containsKey("scale") ? (Integer) dataTypeProperties.get("scale") : 0;
-                return new DecimalType(precision, scale);
-            case DB2_REAL:
-                return BasicType.FLOAT_TYPE;
-            case DB2_DOUBLE:
-                return BasicType.DOUBLE_TYPE;
-            case DB2_CHAR:
-            case DB2_VARCHAR:
-                return BasicType.STRING_TYPE;
-            case DB2_DATE:
-                return LocalTimeType.LOCAL_DATE_TYPE;
-            case DB2_TIME:
-                return LocalTimeType.LOCAL_TIME_TYPE;
-            case DB2_TIMESTAMP:
-                return LocalTimeType.LOCAL_DATE_TIME_TYPE;
-            // Add cases for additional DB2 data types as necessary
+        Long precision = null;
+        Integer scale = null;
+        switch (connectorDataType.toUpperCase()) {
+            case DB2TypeConverter.DB2_DECIMAL:
+                precision = MapUtils.getLong(dataTypeProperties, PRECISION, DEFAULT_PRECISION);
+                scale = MapUtils.getInteger(dataTypeProperties, SCALE, DEFAULT_SCALE);
+                break;
             default:
-                throw new UnsupportedOperationException(
-                        String.format("Doesn't support DB2 type '%s' yet.", connectorDataType));
+                break;
         }
+
+        BasicTypeDefine typeDefine =
+                BasicTypeDefine.builder()
+                        .name(field)
+                        .columnType(connectorDataType)
+                        .dataType(normalizeTimestamp(connectorDataType))
+                        .length(precision)
+                        .precision(precision)
+                        .scale(scale)
+                        .build();
+
+        return DB2TypeConverter.INSTANCE.convert(typeDefine).getDataType();
     }
 
     @Override
-    public String toConnectorType(SeaTunnelDataType<?> seaTunnelDataType, Map<String, Object> dataTypeProperties)
-            throws DataTypeConvertException {
+    public String toConnectorType(
+            String field,
+            SeaTunnelDataType<?> seaTunnelDataType,
+            Map<String, Object> dataTypeProperties) {
         checkNotNull(seaTunnelDataType, "seaTunnelDataType cannot be null");
-        SqlType sqlType = seaTunnelDataType.getSqlType();
 
-        switch (sqlType) {
-            case SMALLINT:
-                return DB2_SMALLINT;
-            case INT:
-                return DB2_INTEGER;
-            case BIGINT:
-                return DB2_BIGINT;
-            case DECIMAL:
-                return DB2_DECIMAL;
-            case FLOAT:
-                return DB2_REAL;
-            case DOUBLE:
-                return DB2_DOUBLE;
-            case STRING:
-                return DB2_VARCHAR;
-            case DATE:
-                return DB2_DATE;
-            case TIME:
-                return DB2_TIME;
-            case TIMESTAMP:
-                return DB2_TIMESTAMP;
-            // Map additional SeaTunnel types to DB2 types as necessary
-            default:
-                throw new UnsupportedOperationException(
-                        String.format("Doesn't support SeaTunnel type '%s' yet.", seaTunnelDataType));
+        Long precision = MapUtils.getLong(dataTypeProperties, PRECISION);
+        Integer scale = MapUtils.getInteger(dataTypeProperties, SCALE);
+        Column column =
+                PhysicalColumn.builder()
+                        .name(field)
+                        .dataType(seaTunnelDataType)
+                        .columnLength(precision)
+                        .scale(scale)
+                        .nullable(true)
+                        .build();
+
+        BasicTypeDefine typeDefine = DB2TypeConverter.INSTANCE.reconvert(column);
+        return typeDefine.getColumnType();
+    }
+
+    public static String normalizeTimestamp(String db2Type) {
+        // Create a pattern to match TIMESTAMP followed by an optional (0-9)
+        String pattern = "^TIMESTAMP(\\([0-9]\\))?$";
+        // Create a Pattern object
+        Pattern r = Pattern.compile(pattern);
+        // Now create matcher object.
+        Matcher m = r.matcher(db2Type);
+        if (m.find()) {
+            return "TIMESTAMP";
+        } else {
+            return db2Type;
         }
     }
 
     @Override
     public String getIdentity() {
-        return "DB2";
+        return DatabaseIdentifier.DB_2;
     }
 }

@@ -23,8 +23,7 @@ import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDiale
 
 import java.util.Optional;
 
-public class PrestoDialect
-    implements JdbcDialect {
+public class PrestoDialect implements JdbcDialect {
     @Override
     public String dialectName() {
         return "Presto";
@@ -41,7 +40,8 @@ public class PrestoDialect
     }
 
     @Override
-    public Optional<String> getUpsertStatement(String database,String tableName, String[] fieldNames, String[] uniqueKeyFields) {
+    public Optional<String> getUpsertStatement(
+            String database, String tableName, String[] fieldNames, String[] uniqueKeyFields) {
         return Optional.empty();
     }
 }

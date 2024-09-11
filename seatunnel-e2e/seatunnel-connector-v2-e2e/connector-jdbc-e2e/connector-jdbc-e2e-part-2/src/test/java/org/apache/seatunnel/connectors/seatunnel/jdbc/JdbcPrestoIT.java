@@ -17,18 +17,18 @@
 
 package org.apache.seatunnel.connectors.seatunnel.jdbc;
 
-import com.google.common.collect.Lists;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.seatunnel.e2e.common.TestResource;
 import org.apache.seatunnel.e2e.common.TestSuiteBase;
 import org.apache.seatunnel.e2e.common.container.TestContainer;
-import org.junit.jupiter.api.*;
+
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.lifecycle.Startables;
 import org.testcontainers.utility.DockerLoggerFactory;
 
-import java.sql.*;
+import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -49,30 +49,33 @@ public class JdbcPrestoIT extends TestSuiteBase implements TestResource {
     @BeforeAll
     @Override
     public void startUp() throws Exception {
-        dbServer = new GenericContainer<>(DOCKER_IMAGE)
-            .withNetwork(NETWORK)
-            .withNetworkAliases(HOST)
-            .withLogConsumer(new Slf4jLogConsumer(DockerLoggerFactory.getLogger(DOCKER_IMAGE)));
+        dbServer =
+                new GenericContainer<>(DOCKER_IMAGE)
+                        .withNetwork(NETWORK)
+                        .withNetworkAliases(HOST)
+                        .withLogConsumer(
+                                new Slf4jLogConsumer(DockerLoggerFactory.getLogger(DOCKER_IMAGE)));
         dbServer.setPortBindings(Lists.newArrayList(String.format("%s:%s", 5236, 8080)));
         Startables.deepStart(Stream.of(dbServer)).join();
         log.info("Presto container started");
         // wait for presto fully start
         Class.forName(DRIVER_CLASS);
         given().ignoreExceptions()
-            .await()
-            .atMost(60, TimeUnit.SECONDS)
-            .untilAsserted(this::initializeJdbcConnection);
+                .await()
+                .atMost(60, TimeUnit.SECONDS)
+                .untilAsserted(this::initializeJdbcConnection);
         initializeJdbcTable();
     }
 
     private void initializeJdbcConnection() throws SQLException {
         Properties properties = new Properties();
         properties.setProperty("user", "presto");
-        jdbcConnection = DriverManager.getConnection(String.format(URL, dbServer.getHost()), properties);
+        jdbcConnection =
+                DriverManager.getConnection(String.format(URL, dbServer.getHost()), properties);
     }
 
     private void initializeJdbcTable() {
-        //no thing
+        // no thing
     }
 
     @AfterAll
@@ -98,8 +101,7 @@ public class JdbcPrestoIT extends TestSuiteBase implements TestResource {
             String sql = String.format("SHOW CATALOGS");
             ResultSet source = statement.executeQuery(sql);
             Assertions.assertTrue(source.next());
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             log.warn("Ignore {}", e);
         }
     }

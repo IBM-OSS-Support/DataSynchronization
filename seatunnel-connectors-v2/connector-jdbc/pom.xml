@@ -334,6 +334,11 @@
             <groupId>com.intersystems</groupId>
             <artifactId>intersystems-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.seatunnel</groupId>
+            <artifactId>seatunnel-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

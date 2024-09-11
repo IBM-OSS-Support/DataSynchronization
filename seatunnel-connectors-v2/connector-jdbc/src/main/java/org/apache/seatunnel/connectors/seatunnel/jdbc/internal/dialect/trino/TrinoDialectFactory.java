@@ -17,14 +17,14 @@
 
 package org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.trino;
 
-import com.google.auto.service.AutoService;
-import lombok.NonNull;
 import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDialect;
 import org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.JdbcDialectFactory;
 
+import com.google.auto.service.AutoService;
+import lombok.NonNull;
+
 @AutoService(JdbcDialectFactory.class)
-public class TrinoDialectFactory
-    implements JdbcDialectFactory {
+public class TrinoDialectFactory implements JdbcDialectFactory {
 
     @Override
     public boolean acceptsURL(@NonNull String url) {

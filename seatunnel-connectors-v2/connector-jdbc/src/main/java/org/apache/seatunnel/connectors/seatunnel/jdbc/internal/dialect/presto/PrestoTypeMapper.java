@@ -64,7 +64,8 @@ public class PrestoTypeMapper implements JdbcDialectTypeMapper {
 
     @SuppressWarnings("checkstyle:MagicNumber")
     @Override
-    public SeaTunnelDataType<?> mapping(ResultSetMetaData metadata, int colIndex) throws SQLException {
+    public SeaTunnelDataType<?> mapping(ResultSetMetaData metadata, int colIndex)
+            throws SQLException {
         String columnType = metadata.getColumnTypeName(colIndex).toUpperCase();
         // VARCHAR(x)      --->      VARCHAR
         if (columnType.indexOf("(") > -1) {
@@ -102,16 +103,17 @@ public class PrestoTypeMapper implements JdbcDialectTypeMapper {
             case PRESTO_VARBINARY:
             case PRESTO_BINARY:
                 return PrimitiveByteArrayType.INSTANCE;
-            //Doesn't support yet
+                // Doesn't support yet
             case PRESTO_MAP:
             case PRESTO_ARRAY:
             case PRESTO_ROW:
             default:
                 final String jdbcColumnName = metadata.getColumnName(colIndex);
-                throw new JdbcConnectorException(CommonErrorCode.UNSUPPORTED_OPERATION,
-                    String.format(
-                        "Doesn't support Presto type '%s' on column '%s'  yet.",
-                        columnType, jdbcColumnName));
+                throw new JdbcConnectorException(
+                        CommonErrorCode.UNSUPPORTED_OPERATION,
+                        String.format(
+                                "Doesn't support Presto type '%s' on column '%s'  yet.",
+                                columnType, jdbcColumnName));
         }
     }
 }

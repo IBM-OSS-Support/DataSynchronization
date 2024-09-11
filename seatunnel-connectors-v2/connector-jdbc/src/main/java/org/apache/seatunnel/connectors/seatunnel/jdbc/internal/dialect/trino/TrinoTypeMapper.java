@@ -64,7 +64,8 @@ public class TrinoTypeMapper implements JdbcDialectTypeMapper {
 
     @SuppressWarnings("checkstyle:MagicNumber")
     @Override
-    public SeaTunnelDataType<?> mapping(ResultSetMetaData metadata, int colIndex) throws SQLException {
+    public SeaTunnelDataType<?> mapping(ResultSetMetaData metadata, int colIndex)
+            throws SQLException {
         String columnType = metadata.getColumnTypeName(colIndex).toUpperCase();
         // VARCHAR(x)      --->      VARCHAR
         if (columnType.indexOf("(") > -1) {
@@ -102,16 +103,17 @@ public class TrinoTypeMapper implements JdbcDialectTypeMapper {
             case TRINO_VARBINARY:
             case TRINO_BINARY:
                 return PrimitiveByteArrayType.INSTANCE;
-            //Doesn't support yet
+                // Doesn't support yet
             case TRINO_MAP:
             case TRINO_ARRAY:
             case TRINO_ROW:
             default:
                 final String jdbcColumnName = metadata.getColumnName(colIndex);
-                throw new JdbcConnectorException(CommonErrorCode.UNSUPPORTED_OPERATION,
-                    String.format(
-                        "Doesn't support TRINO type '%s' on column '%s'  yet.",
-                        columnType, jdbcColumnName));
+                throw new JdbcConnectorException(
+                        CommonErrorCode.UNSUPPORTED_OPERATION,
+                        String.format(
+                                "Doesn't support TRINO type '%s' on column '%s'  yet.",
+                                columnType, jdbcColumnName));
         }
     }
 }
