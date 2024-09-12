@@ -28,8 +28,7 @@ hazelcast:
     join:
       multicast:
         enabled: false
-      aws:
-        enabled: true
+      
     port:
       auto-increment: true
       port-count: 100

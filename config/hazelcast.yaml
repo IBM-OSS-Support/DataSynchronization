@@ -28,8 +28,7 @@ hazelcast:
     join:
       multicast:
         enabled: false
-      aws:
-        enabled: true
+      
     port:
       auto-increment: false
       port: 5701
