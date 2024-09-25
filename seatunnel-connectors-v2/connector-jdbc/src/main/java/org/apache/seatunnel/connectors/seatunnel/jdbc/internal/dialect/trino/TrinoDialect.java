@@ -36,7 +36,8 @@ public class TrinoDialect implements JdbcDialect {
 
     @Override
     public JdbcDialectTypeMapper getJdbcDialectTypeMapper() {
-        return new TrinoTypeMapper();
+        return new org.apache.seatunnel.connectors.seatunnel.jdbc.internal.dialect.trino
+                .TrinoTypeMapper();
     }
 
     @Override
