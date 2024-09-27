@@ -84,10 +84,11 @@ public final class TypesafeConfigUtils {
 
     public static List<? extends Config> getConfigList(
             Config config, String configKey, @NonNull List<? extends Config> defaultValue) {
-        if (Objects.equals(configKey,"transform")){
-            return (config.hasPath(configKey) && config.getValue(configKey) instanceof List) ?
-                    config.getConfigList(configKey) : Collections.emptyList();
-        }else {
+        if (Objects.equals(configKey, "transform")) {
+            return (config.hasPath(configKey) && config.getValue(configKey) instanceof List)
+                    ? config.getConfigList(configKey)
+                    : Collections.emptyList();
+        } else {
             return config.hasPath(configKey) ? config.getConfigList(configKey) : defaultValue;
         }
     }

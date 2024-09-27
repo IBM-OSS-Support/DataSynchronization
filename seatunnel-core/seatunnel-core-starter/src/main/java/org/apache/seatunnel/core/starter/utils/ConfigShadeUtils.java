@@ -17,9 +17,6 @@
 
 package org.apache.seatunnel.core.starter.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.seatunnel.common.constants.CollectionConstants;
 import org.apache.seatunnel.shade.com.google.common.base.Preconditions;
 import org.apache.seatunnel.shade.com.typesafe.config.Config;
 import org.apache.seatunnel.shade.com.typesafe.config.ConfigFactory;
@@ -28,8 +25,10 @@ import org.apache.seatunnel.shade.com.typesafe.config.ConfigRenderOptions;
 import org.apache.seatunnel.api.configuration.ConfigShade;
 import org.apache.seatunnel.common.Constants;
 import org.apache.seatunnel.common.config.TypesafeConfigUtils;
-import org.apache.seatunnel.common.utils.JsonUtils;
+import org.apache.seatunnel.common.constants.CollectionConstants;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
@@ -151,7 +150,8 @@ public final class ConfigShadeUtils {
             sources = new ArrayList<>();
             sources.add((Map<String, Object>) sourceObject);
         } else {
-            throw new IllegalArgumentException("Expected List or Map but got: " + sourceObject.getClass().getName());
+            throw new IllegalArgumentException(
+                    "Expected List or Map but got: " + sourceObject.getClass().getName());
         }
 
         Object sinkObject = configMap.get(Constants.SINK);
@@ -163,7 +163,8 @@ public final class ConfigShadeUtils {
             sinks = new ArrayList<>();
             sinks.add((Map<String, Object>) sinkObject);
         } else {
-            throw new IllegalArgumentException("Expected List or Map but got: " + sinkObject.getClass().getName());
+            throw new IllegalArgumentException(
+                    "Expected List or Map but got: " + sinkObject.getClass().getName());
         }
 
         Preconditions.checkArgument(
@@ -216,7 +217,7 @@ public final class ConfigShadeUtils {
         String jsonString = config.root().render(ConfigRenderOptions.concise());
 
         ObjectNode jsonNodes = jsonStrToObjNode(jsonString);
-        ObjectNode sourceSubNode = (ObjectNode)jsonNodes.get(Constants.SOURCE);
+        ObjectNode sourceSubNode = (ObjectNode) jsonNodes.get(Constants.SOURCE);
 
         String sourcePlugin = null;
         String sinkPlugin = null;
@@ -225,16 +226,16 @@ public final class ConfigShadeUtils {
             sourcePlugin = fieldNames.next();
         }
 
-        ObjectNode sinkSubNode = (ObjectNode)jsonNodes.get(Constants.SINK);
+        ObjectNode sinkSubNode = (ObjectNode) jsonNodes.get(Constants.SINK);
         if (Objects.nonNull(sinkSubNode) && sinkSubNode.isObject()) {
             Iterator<String> fieldNames = sinkSubNode.fieldNames();
             sinkPlugin = fieldNames.next();
         }
 
-        ObjectNode sourceNode = (ObjectNode)jsonNodes.get(Constants.SOURCE).get(sourcePlugin);
+        ObjectNode sourceNode = (ObjectNode) jsonNodes.get(Constants.SOURCE).get(sourcePlugin);
         sourceNode.put(CollectionConstants.PLUGIN_NAME, sourcePlugin);
         jsonNodes.set(Constants.SOURCE, sourceNode);
-        ObjectNode sinkNode = (ObjectNode)jsonNodes.get(Constants.SINK).get(sinkPlugin);
+        ObjectNode sinkNode = (ObjectNode) jsonNodes.get(Constants.SINK).get(sinkPlugin);
         sinkNode.put(CollectionConstants.PLUGIN_NAME, sinkPlugin);
         jsonNodes.set(Constants.SINK, sinkNode);
         Map<String, Object> configMap = mapper.convertValue(jsonNodes, Map.class);
@@ -248,7 +249,7 @@ public final class ConfigShadeUtils {
             mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectNode);
             return objectNode;
         } catch (Exception e) {
-            log.info("Getting exception in jsonStrToObjNode:: {}",e.getMessage());
+            log.info("Getting exception in jsonStrToObjNode:: {}", e.getMessage());
         }
         return null;
     }
