@@ -28,7 +28,7 @@ public class TrinoDialectFactory implements JdbcDialectFactory {
 
     @Override
     public boolean acceptsURL(@NonNull String url) {
-        return url.startsWith("jdbc:Trino:");
+        return url.startsWith("jdbc:Trino:") || url.startsWith("jdbc:trino:");
     }
 
     @Override

@@ -93,14 +93,12 @@
                 <version>${presto.version}</version>
                 <scope>provided</scope>
             </dependency>
-
             <dependency>
                 <groupId>io.trino</groupId>
                 <artifactId>trino-jdbc</artifactId>
                 <version>${trino.version}</version>
                 <scope>provided</scope>
             </dependency>
-
             <dependency>
                 <groupId>com.dameng</groupId>
                 <artifactId>DmJdbcDriver18</artifactId>
@@ -251,12 +249,10 @@
             <groupId>io.prestosql</groupId>
             <artifactId>presto-jdbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.trino</groupId>
             <artifactId>trino-jdbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>

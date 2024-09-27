@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import static dm.jdbc.util.DriverUtil.log;
 import static org.awaitility.Awaitility.given;
 
 @Slf4j
@@ -102,7 +103,7 @@ public class JdbcTrinoIT extends TestSuiteBase implements TestResource {
             ResultSet source = statement.executeQuery(sql);
             Assertions.assertTrue(source.next());
         } catch (SQLException e) {
-            log.warn("Ignore {}", e);
+            log.warn("Ignore {}");
         }
     }
 }
