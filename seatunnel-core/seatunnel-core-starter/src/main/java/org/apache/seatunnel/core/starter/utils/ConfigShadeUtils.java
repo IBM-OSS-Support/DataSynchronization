@@ -17,7 +17,9 @@
 
 package org.apache.seatunnel.core.starter.utils;
 
-import org.apache.seatunnel.shade.com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.seatunnel.common.constants.CollectionConstants;
 import org.apache.seatunnel.shade.com.google.common.base.Preconditions;
 import org.apache.seatunnel.shade.com.typesafe.config.Config;
 import org.apache.seatunnel.shade.com.typesafe.config.ConfigFactory;
@@ -38,6 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.function.BiFunction;
 
@@ -136,13 +139,33 @@ public final class ConfigShadeUtils {
                         return configShade.encrypt(value.toString());
                     }
                 };
-        String jsonString = config.root().render(ConfigRenderOptions.concise());
-        ObjectNode jsonNodes = JsonUtils.parseObject(jsonString);
-        Map<String, Object> configMap = JsonUtils.toMap(jsonNodes);
-        List<Map<String, Object>> sources =
-                (ArrayList<Map<String, Object>>) configMap.get(Constants.SOURCE);
-        List<Map<String, Object>> sinks =
-                (ArrayList<Map<String, Object>>) configMap.get(Constants.SINK);
+
+        Map<String, Object> configMap = getConfigMap(config);
+
+        Object sourceObject = configMap.get(Constants.SOURCE);
+        List<Map<String, Object>> sources;
+
+        if (sourceObject instanceof List) {
+            sources = (List<Map<String, Object>>) sourceObject;
+        } else if (sourceObject instanceof Map) {
+            sources = new ArrayList<>();
+            sources.add((Map<String, Object>) sourceObject);
+        } else {
+            throw new IllegalArgumentException("Expected List or Map but got: " + sourceObject.getClass().getName());
+        }
+
+        Object sinkObject = configMap.get(Constants.SINK);
+        List<Map<String, Object>> sinks;
+
+        if (sinkObject instanceof List) {
+            sinks = (List<Map<String, Object>>) sinkObject;
+        } else if (sinkObject instanceof Map) {
+            sinks = new ArrayList<>();
+            sinks.add((Map<String, Object>) sinkObject);
+        } else {
+            throw new IllegalArgumentException("Expected List or Map but got: " + sinkObject.getClass().getName());
+        }
+
         Preconditions.checkArgument(
                 !sources.isEmpty(), "Miss <Source> config! Please check the config file.");
         Preconditions.checkArgument(
@@ -186,5 +209,47 @@ public final class ConfigShadeUtils {
         public String decrypt(String content) {
             return new String(DECODER.decode(content));
         }
+    }
+
+    private static Map<String, Object> getConfigMap(Config config) {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = config.root().render(ConfigRenderOptions.concise());
+
+        ObjectNode jsonNodes = jsonStrToObjNode(jsonString);
+        ObjectNode sourceSubNode = (ObjectNode)jsonNodes.get(Constants.SOURCE);
+
+        String sourcePlugin = null;
+        String sinkPlugin = null;
+        if (Objects.nonNull(sourceSubNode) && sourceSubNode.isObject()) {
+            Iterator<String> fieldNames = sourceSubNode.fieldNames();
+            sourcePlugin = fieldNames.next();
+        }
+
+        ObjectNode sinkSubNode = (ObjectNode)jsonNodes.get(Constants.SINK);
+        if (Objects.nonNull(sinkSubNode) && sinkSubNode.isObject()) {
+            Iterator<String> fieldNames = sinkSubNode.fieldNames();
+            sinkPlugin = fieldNames.next();
+        }
+
+        ObjectNode sourceNode = (ObjectNode)jsonNodes.get(Constants.SOURCE).get(sourcePlugin);
+        sourceNode.put(CollectionConstants.PLUGIN_NAME, sourcePlugin);
+        jsonNodes.set(Constants.SOURCE, sourceNode);
+        ObjectNode sinkNode = (ObjectNode)jsonNodes.get(Constants.SINK).get(sinkPlugin);
+        sinkNode.put(CollectionConstants.PLUGIN_NAME, sinkPlugin);
+        jsonNodes.set(Constants.SINK, sinkNode);
+        Map<String, Object> configMap = mapper.convertValue(jsonNodes, Map.class);
+        return configMap;
+    }
+
+    private static ObjectNode jsonStrToObjNode(String jsonString) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode objectNode = (ObjectNode) mapper.readTree(jsonString);
+            mapper.writerWithDefaultPrettyPrinter().writeValueAsString(objectNode);
+            return objectNode;
+        } catch (Exception e) {
+            log.info("Getting exception in jsonStrToObjNode:: {}",e.getMessage());
+        }
+        return null;
     }
 }
