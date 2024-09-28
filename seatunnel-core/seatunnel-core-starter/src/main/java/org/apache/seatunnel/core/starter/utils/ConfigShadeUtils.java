@@ -27,6 +27,7 @@ import org.apache.seatunnel.common.Constants;
 import org.apache.seatunnel.common.config.TypesafeConfigUtils;
 import org.apache.seatunnel.common.constants.CollectionConstants;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
@@ -217,7 +218,7 @@ public final class ConfigShadeUtils {
         String jsonString = config.root().render(ConfigRenderOptions.concise());
 
         ObjectNode jsonNodes = jsonStrToObjNode(jsonString);
-        ObjectNode sourceSubNode = (ObjectNode) jsonNodes.get(Constants.SOURCE);
+        JsonNode sourceSubNode = jsonNodes.get(Constants.SOURCE);
 
         String sourcePlugin = null;
         String sinkPlugin = null;
@@ -226,7 +227,7 @@ public final class ConfigShadeUtils {
             sourcePlugin = fieldNames.next();
         }
 
-        ObjectNode sinkSubNode = (ObjectNode) jsonNodes.get(Constants.SINK);
+        JsonNode sinkSubNode = jsonNodes.get(Constants.SINK);
         if (Objects.nonNull(sinkSubNode) && sinkSubNode.isObject()) {
             Iterator<String> fieldNames = sinkSubNode.fieldNames();
             sinkPlugin = fieldNames.next();
