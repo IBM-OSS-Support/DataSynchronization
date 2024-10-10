@@ -28,7 +28,7 @@ pipeline {
                               doGenerateSubmoduleConfigurations: false,
                               extensions: [[$class: 'CleanCheckout'], [$class: 'CloneOption', noTags: false, reference: '', shallow: false, timeout: 1]],
                               submoduleCfg: [],
-                              userRemoteConfigs: [[credentialsId: 'Git-Hub-Cred', url: "${gitRepo}"]]])
+                              userRemoteConfigs: [[credentialsId: 'ibmseatunnel_github_token', url: "${gitRepo}"]]])
                 }
             }
         }   
