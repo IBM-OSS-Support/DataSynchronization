@@ -30,6 +30,6 @@ RUN echo '\
 RUN rm -rf /opt/apache-seatunnel-${SEATUNNEL_VERSION}-SNAPSHOT-bin.tar.gz
 RUN rm -rf /opt/apache-seatunnel-${SEATUNNEL_WEB_VERSION}-SNAPSHOT.tar.gz
 EXPOSE 5173 8801 5801 1433 5000 3306 5701 5702 5703 5704 5705 5706 5707 5708 5709 5710 5711 5712 5713 5714 5715
-COPY commands.sh /commands.sh
+COPY docker/commands.sh /commands.sh
 RUN chmod +x /commands.sh
 ENTRYPOINT ["/commands.sh"]
