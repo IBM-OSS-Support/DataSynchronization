@@ -22,9 +22,11 @@ import org.apache.seatunnel.shade.com.typesafe.config.ConfigValue;
 
 import lombok.NonNull;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public final class TypesafeConfigUtils {
 
@@ -82,7 +84,13 @@ public final class TypesafeConfigUtils {
 
     public static List<? extends Config> getConfigList(
             Config config, String configKey, @NonNull List<? extends Config> defaultValue) {
-        return config.hasPath(configKey) ? config.getConfigList(configKey) : defaultValue;
+        if (Objects.equals(configKey, "transform")) {
+            return (config.hasPath(configKey) && config.getValue(configKey) instanceof List)
+                    ? config.getConfigList(configKey)
+                    : Collections.emptyList();
+        } else {
+            return config.hasPath(configKey) ? config.getConfigList(configKey) : defaultValue;
+        }
     }
 
     public static Map<String, String> configToMap(Config config) {
