@@ -29,6 +29,7 @@ import org.apache.seatunnel.common.constants.CollectionConstants;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -222,23 +223,25 @@ public final class ConfigShadeUtils {
 
         String sourcePlugin = null;
         String sinkPlugin = null;
-        if (Objects.nonNull(sourceSubNode) && sourceSubNode.isObject()) {
+        if (Objects.nonNull(sourceSubNode) && !(sourceSubNode instanceof ArrayNode)) {
             Iterator<String> fieldNames = sourceSubNode.fieldNames();
             sourcePlugin = fieldNames.next();
+
+            ObjectNode sourceNode = (ObjectNode) jsonNodes.get(Constants.SOURCE).get(sourcePlugin);
+            sourceNode.put(CollectionConstants.PLUGIN_NAME, sourcePlugin);
+            jsonNodes.set(Constants.SOURCE, sourceNode);
         }
 
         JsonNode sinkSubNode = jsonNodes.get(Constants.SINK);
-        if (Objects.nonNull(sinkSubNode) && sinkSubNode.isObject()) {
+        if (Objects.nonNull(sinkSubNode) && !(sinkSubNode instanceof ArrayNode)) {
             Iterator<String> fieldNames = sinkSubNode.fieldNames();
             sinkPlugin = fieldNames.next();
+
+            ObjectNode sinkNode = (ObjectNode) jsonNodes.get(Constants.SINK).get(sinkPlugin);
+            sinkNode.put(CollectionConstants.PLUGIN_NAME, sinkPlugin);
+            jsonNodes.set(Constants.SINK, sinkNode);
         }
 
-        ObjectNode sourceNode = (ObjectNode) jsonNodes.get(Constants.SOURCE).get(sourcePlugin);
-        sourceNode.put(CollectionConstants.PLUGIN_NAME, sourcePlugin);
-        jsonNodes.set(Constants.SOURCE, sourceNode);
-        ObjectNode sinkNode = (ObjectNode) jsonNodes.get(Constants.SINK).get(sinkPlugin);
-        sinkNode.put(CollectionConstants.PLUGIN_NAME, sinkPlugin);
-        jsonNodes.set(Constants.SINK, sinkNode);
         Map<String, Object> configMap = mapper.convertValue(jsonNodes, Map.class);
         return configMap;
     }
