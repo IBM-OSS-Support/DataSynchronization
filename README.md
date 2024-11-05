@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Apache SeaTunnel
 
 <img src="https://seatunnel.apache.org/image/logo.png" alt="SeaTunnel Logo" height="200px" align="right" />
@@ -149,7 +148,3 @@ Our [Official Documentation](https://seatunnel.apache.org/docs) includes detaile
 ### 7. Is there a community or support channel?
 
 Join our Slack community for support and discussions: [SeaTunnel Slack](https://s.apache.org/seatunnel-slack).
-=======
-# Patiala-SeaTunnel-Engine
-patiala-SeaTunnel-Engine
->>>>>>> origin/main
