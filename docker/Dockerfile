@@ -31,21 +31,14 @@ RUN echo "-Xms2G" >> $SEATUNNEL_HOME/config/jvm_options && \
 RUN mkdir -p $SEATUNNEL_HOME/logs $SEATUNNEL_WEB_HOME/logs && \
     cp -r $SEATUNNEL_HOME/config/hazelcast-client.yaml $SEATUNNEL_WEB_HOME/conf/ && \
     cp -r $SEATUNNEL_HOME/connectors/plugin-mapping.properties $SEATUNNEL_WEB_HOME/conf/
-COPY aws-java-sdk-bundle-1.12.692.jar  $SEATUNNEL_HOME/lib/
-COPY hadoop-aws-3.1.4.jar  $SEATUNNEL_HOME/lib/
-
 # Expose ports
 EXPOSE 5173 8801 5801 1433 5000 3306 5701-5715
-
 # Define volumes
 VOLUME /var/lib/mysql
-
 # Copy the entrypoint script
 COPY entrypoint.sh /entrypoint.sh
-
 # Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
-
 # Set entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 
