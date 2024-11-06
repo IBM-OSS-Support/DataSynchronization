@@ -1,9 +1,9 @@
 # Set Up Develop Environment
 
-In this section, we are going to show you how to set up your development environment for SeaTunnel, and then run a simple
+In this section, we are going to show you how to set up your development environment for DataSynchronization, and then run a simple
 example in your JetBrains IntelliJ IDEA.
 
-> You can develop or test SeaTunnel code in any development environment that you like, but here we use
+> You can develop or test DataSynchronization code in any development environment that you like, but here we use
 > [JetBrains IDEA](https://www.jetbrains.com/idea/) as an example to teach you to step by step.
 
 ## Prepare
@@ -20,10 +20,10 @@ have installed the following software:
 
 ### Clone the Source Code
 
-First of all, you need to clone the SeaTunnel source code from [GitHub](https://github.com/apache/seatunnel).
+First of all, you need to clone the SeaTunnel source code from [GitHub](https://github.com/IBM-developers/DataSynchronization).
 
 ```shell
-git clone git@github.com:apache/seatunnel.git
+git clone git@github.com:IBM-developers/DataSynchronization.git
 ```
 
 ### Install Subproject Locally
@@ -32,10 +32,10 @@ After cloning the source code, you should run the `./mvnw` command to install th
 Otherwise, your code could not start in JetBrains IntelliJ IDEA correctly.
 
 ```shell
-./mvnw install -Dmaven.test.skip
+./mvnw -U -T 1C clean install -DskipTests -D"maven.test.skip"=true -D"maven.javadoc.skip"=true -D"checkstyle.skip"=true -D"license.skipAddThirdParty"
 ```
 
-### Building SeaTunnel From Source
+### Building DataSynchronization From Source
 
 After you install the maven, you can use the following command to compile and package.
 
@@ -66,7 +66,7 @@ See [install plugins for IDEA](https://www.jetbrains.com/help/idea/managing-plug
 
 ### Code Style
 
-Apache SeaTunnel uses `Spotless` for code style and format checks. You can run the following command and `Spotless` will automatically fix the code style and formatting errors for you:
+DataSynchronization uses `Spotless` for code style and format checks. You can run the following command and `Spotless` will automatically fix the code style and formatting errors for you:
 
 ```shell
 ./mvnw spotless:apply
