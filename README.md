@@ -1,33 +1,33 @@
-# IBM Data Synchronization
+# DataSynchronization
 
-## About IBM Data Synchronization
+## About DataSynchronization
 
-### What is IBM Data Synchronization?
+### What is DataSynchronization?
 
-IBM Data Synchronization is an effortlessly navigable, exceptionally high-functioning data integration solution designed for seamless real-time synchronization of extensive datasets. It excels in the stable and efficient synchronization of tens of billions of records on a daily basis. IBM Data Synchronization combines the power of SeaTunnel with extensive database architecture of IBM Storage Solutions to provide a seamless data integration experience.
+DataSynchronization is an effortlessly navigable, exceptionally high-functioning data integration solution designed for seamless real-time synchronization of extensive datasets. It excels in the stable and efficient synchronization of tens of billions of records on a daily basis. IBM Data Synchronization combines the power of SeaTunnel with extensive database architecture of IBM Storage Solutions to provide a seamless data integration experience.
 
 * IBM Community Blogpost: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/06/ibm-data-synchronisation-launch-announcement
-* User Guide for the IBM Data Synchronization UI: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
+* User Guide for the DataSynchronization UI: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
 
-### Why do we need IBM Data Synchronization?
+### Why do we need DataSynchronization?
 
-In the realm of modern data management, IBM Data Synchronization proves to be an essential tool. By combining the capabilities of [Apache SeaTunnel OSS](https://seatunnel.apache.org/) with the functionality of IBM UI, it offers reliable performance, a user-friendly design, and real-time synchronization, along with other key features.
+In the realm of modern data management, DataSynchronization proves to be an essential tool. By combining the capabilities of [Apache SeaTunnel OSS](https://seatunnel.apache.org/) with the functionality of IBM UI, it offers reliable performance, a user-friendly design, and real-time synchronization, along with other key features.
 
-For enterprises and users grappling with the complexities of contemporary data management, IBM Data Synchronization emerges as a practical solution. Serving as a one-step solution for Data Integration and Synchronization needs, it provides a straightforward approach to address the challenges associated with managing data in today's landscape. Whether you're dealing with intricate datasets or streamlining data processes, IBM Data Synchronization is a strategic choice for effective and efficient data management.
+For enterprises and users grappling with the complexities of contemporary data management, DataSynchronization emerges as a practical solution. Serving as a one-step solution for Data Integration and Synchronization needs, it provides a straightforward approach to address the challenges associated with managing data in today's landscape. Whether you're dealing with intricate datasets or streamlining data processes, DataSynchronization is a strategic choice for effective and efficient data management.
 
-## How do I download IBM Data Synchronization?
+## How do I download DataSynchronization?
 
 ### Step 1
 
 Pull the image from Docker Hub by running the following command:
 
 ```
-docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+docker pull ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 
 Example:
 ```
-docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-2.3.6.1
+docker pull ghcr.io/ibm-developers/datasynchronization:2.3.6.1
 ```
 
 ### Step 2
@@ -58,7 +58,7 @@ docker volume ls
 Get the Docker container up and running using the following command:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the volume created for storing user data
 
@@ -78,7 +78,7 @@ docker ps -a
 
 * Check the container deployment logs using the following command:
 ```
-docker logs ibmdatasynchronization
+docker logs datasynchronization
 ```
 
 ## Deploying a connector plugin using a config file
@@ -100,7 +100,7 @@ The login credentials to access the UI are:
 Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
 ```
-docker exec -it bash -c '$SEATUNNEL_HOME/bin/seatunnel.sh --config /path/to/config/file' ibmdatasynchronization
+docker exec -it bash -c '$SEATUNNEL_HOME/bin/seatunnel.sh --config /path/to/config/file' datasynchronization
 ```
 
 where `$SEATUNNEL_HOME` is `/opt/seatunnel`
@@ -110,7 +110,7 @@ where `$SEATUNNEL_HOME` is `/opt/seatunnel`
 * Run the following command to get an interactive bash shell in the container:
 
 ```
-docker exec -it ibmdatasynchronization bash
+docker exec -it datasynchronization bash
 ```
 
 * Create a config file if it doesn't exist.
@@ -138,7 +138,7 @@ docker ps -a
 * Run the following command to start the stopped container:
 
 ```
-docker start ibmdatasynchronization
+docker start datasynchronization
 ```
 
 
@@ -150,10 +150,10 @@ docker ps -a
 
 ### Restarting as a new container:
 
-* Run the following command to deploy a new IBM Data Synchronization container without any data loss from the stopped container:
+* Run the following command to deploy a new DataSynchronization container without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
@@ -170,19 +170,19 @@ In case you want to update the container, perform the following steps:
 * Stop the container that needs to be updated:
 
 ```
-docker stop ibmdatasynchronization
+docker stop datasynchronization
 ```
 
-* Pull the version of the IBM Data Synchronization image that you want to update your container to:
+* Pull the version of the DataSynchronization image that you want to update your container to:
 
 ```
-docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+docker pull ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 
-* Run the following command to deploy a IBM Data Synchronization container from this new image without any data loss from the stopped container:
+* Run the following command to deploy a DataSynchronization container from this new image without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
@@ -194,12 +194,14 @@ docker ps -a
 
 # What's new in datasynchronization-2.3.6.1
 
-* **SQL-Based Task Creation**: Support for creating IBM Data Synchronization tasks using SQL, in addition to the existing HOCON format.
-* **Kafka as Virtual Table**: Kafka topics can be managed as virtual tables, enabling real-time data processing and flexible transformations within the IBM Data Synchronization interface.
+* **SQL-Based Task Creation**: Support for creating DataSynchronization tasks using SQL, in addition to the existing HOCON format.
+* **Kafka as Virtual Table**: Kafka topics can be managed as virtual tables, enabling real-time data processing and flexible transformations within the DataSynchronization interface.
 * **Full SQL Transformation Support**: Improved support for SQL transformations to address integration job issues, with a structured graphical interface for managing data pipelines.
 * **WatsonX.data Integration**: Enhanced ETL capabilities and real-time data transformation to integrate with WatsonX.data for streamlined data management and analytics.
 * **Hazelcast Cluster and Database Connectivity Dashboard**: New dashboard to monitor Hazelcast cluster health and database connectivity, tracking key metrics like active nodes, connection counts, and system load.
 * **User-Defined Parameter Functions and New Connectors**: Added support for user-defined parameter functions and multiple connectors (e.g., Presto, Db2, Trino Sink), along with updates to SQL transform functionality and Zeta Engine.
+
+For more details refer to the [Announcement Blog](https://ibm.ent.box.com/notes/1654272849437)
 
 
 ## How to Compile
