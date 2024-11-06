@@ -1,150 +1,222 @@
-# Apache SeaTunnel
+# IBM Data Synchronization
 
-<img src="https://seatunnel.apache.org/image/logo.png" alt="SeaTunnel Logo" height="200px" align="right" />
+## About IBM Data Synchronization
 
-[![Build Workflow](https://github.com/apache/seatunnel/actions/workflows/build_main.yml/badge.svg?branch=dev)](https://github.com/apache/seatunnel/actions/workflows/build_main.yml)
-[![Join Slack](https://img.shields.io/badge/slack-%23seatunnel-4f8eba?logo=slack)](https://s.apache.org/seatunnel-slack)
-[![Twitter Follow](https://img.shields.io/twitter/follow/ASFSeaTunnel.svg?label=Follow&logo=twitter)](https://twitter.com/ASFSeaTunnel)
+### What is IBM Data Synchronization?
 
-## Table of Contents
-- [Overview](#overview)
-- [Why Choose SeaTunnel](#why-choose-seatunnel)
-- [Key Features](#key-features)
-- [SeaTunnel Workflow](#seatunnel-workflow)
-- [Supported Connectors](#supported-connectors)
-- [Getting Started](#getting-started)
-- [Use Cases](#use-cases)
-- [Code of Conduct](#code-of-conduct)
-- [Contributors](#contributors)
-- [How to Compile](#how-to-compile)
-- [Contact Us](#contact-us)
-- [Landscapes](#landscapes)
-- [Apache SeaTunnel Web Project](#apache-seaTunnel-web-project)
-- [Our Users](#our-users)
-- [License](#license)
-- [Frequently Asked Questions](#frequently-asked-questions)
+IBM Data Synchronization is an effortlessly navigable, exceptionally high-functioning data integration solution designed for seamless real-time synchronization of extensive datasets. It excels in the stable and efficient synchronization of tens of billions of records on a daily basis. IBM Data Synchronization combines the power of SeaTunnel with extensive database architecture of IBM Storage Solutions to provide a seamless data integration experience.
 
-## Overview
+* IBM Community Blogpost: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/06/ibm-data-synchronisation-launch-announcement
+* User Guide for the IBM Data Synchronization UI: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
 
-SeaTunnel is a next-generation, high-performance, distributed data integration tool, capable of synchronizing vast amounts of data daily. It's trusted by numerous companies for its efficiency and stability.
+### Why do we need IBM Data Synchronization?
+
+In the realm of modern data management, IBM Data Synchronization proves to be an essential tool. By combining the capabilities of [Apache SeaTunnel OSS](https://seatunnel.apache.org/) with the functionality of IBM UI, it offers reliable performance, a user-friendly design, and real-time synchronization, along with other key features.
+
+For enterprises and users grappling with the complexities of contemporary data management, IBM Data Synchronization emerges as a practical solution. Serving as a one-step solution for Data Integration and Synchronization needs, it provides a straightforward approach to address the challenges associated with managing data in today's landscape. Whether you're dealing with intricate datasets or streamlining data processes, IBM Data Synchronization is a strategic choice for effective and efficient data management.
+
+## How do I download IBM Data Synchronization?
+
+### Step 1
+
+Pull the image from Docker Hub by running the following command:
+
+```
+docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+```
+
+Example:
+```
+docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-2.3.6.1
+```
+
+### Step 2
+
+Check the image is pulled by running the command:
+
+```
+docker images
+```
+
+### Step 3
+
+Create the following persistent volumes:
+
+* For user data:
+```
+docker volume create <user_data>
+```
+where <user_data> is the volume for storing the user data.
+
+* Run the following command to check if the volume is created:
+```
+docker volume ls
+```
+
+### Step 4
+
+Get the Docker container up and running using the following command:
+
+```
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+```
+where `<user_data>` is the volume created for storing user data
+
+```
+NOTE:
+If you are using any other way to connect to your database server other than IP address, please use --add-host option to the above docker run command to specify the server name or add the IP address and server name to the /etc/hosts file in a running container. 
+```
 
 
-## Why Choose SeaTunnel
+### Step 5
 
-SeaTunnel addresses common data integration challenges:
+* Check the container is up and running and other details about the container by using the following command:
 
-- **Diverse Data Sources**: Seamlessly integrates with hundreds of evolving data sources.
-  
-- **Complex Synchronization Scenarios**: Supports various synchronization methods, including real-time, CDC, and full database synchronization.
-  
-- **Resource Efficiency**: Minimizes computing resources and JDBC connections for real-time synchronization.
-  
-- **Quality and Monitoring**: Provides data quality and monitoring to prevent data loss or duplication.
+```
+docker ps -a
+```
 
-## Key Features
+* Check the container deployment logs using the following command:
+```
+docker logs ibmdatasynchronization
+```
 
-- **Diverse Connectors**: Offers support for over 100 connectors, with ongoing expansion.
-  
-- **Batch-Stream Integration**: Easily adaptable connectors simplify data integration management.
-  
-- **Distributed Snapshot Algorithm**: Ensures data consistency across synchronized data.
-  
-- **Multi-Engine Support**: Works with SeaTunnel Zeta Engine, Flink, and Spark.
-  
-- **JDBC Multiplexing and Log Parsing**: Efficiently synchronizes multi-tables and databases.
-  
-- **High Throughput and Low Latency**: Provides high-throughput data synchronization with low latency.
-  
-- **Real-Time Monitoring**: Offers detailed insights during synchronization.
-  
-- **Two Job Development Methods**: Supports coding and visual job management with the [SeaTunnel Web Project](https://github.com/apache/seatunnel-web).
+## Deploying a connector plugin using a config file
 
-## SeaTunnel Workflow
+### From the UI:
 
-![SeaTunnel Workflow](docs/images/architecture_diagram.png)
+Access the UI using the following link: `http://<host_ip>:8801/ui/`
 
-Configure jobs, select execution engines, and parallelize data using Source Connectors. Easily develop and extend connectors to meet your needs.
+where `<host_ip>` is the IP address of the host machine. 
 
-## Supported Connectors
+The login credentials to access the UI are: 
+* `Username: admin`
+* `Password: IBM@DATA#SYNC@2024`
 
-- [Source Connectors](https://seatunnel.apache.org/docs/category/source-v2)
-- [Sink Connectors](https://seatunnel.apache.org/docs/category/sink-v2)
-- [Transform Connectors](docs/en/transform-v2)
+### From the command line:
 
-For a list of connectors and their health status, visit the [Connector Status](docs/en/Connector-v2-release-state.md).
+#### From the host machine:
 
-## Getting Started
+Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
-Download SeaTunnel from the [Official Website](https://seatunnel.apache.org/download).
+```
+docker exec -it bash -c '$SEATUNNEL_HOME/bin/seatunnel.sh --config /path/to/config/file' ibmdatasynchronization
+```
 
-Choose your runtime execution engine:
-- [SeaTunnel Zeta Engine](https://seatunnel.apache.org/docs/start-v2/locally/quick-start-seatunnel-engine/)
-- [Spark](https://seatunnel.apache.org/docs/start-v2/locally/quick-start-spark)
-- [Flink](https://seatunnel.apache.org/docs/start-v2/locally/quick-start-flink)
+where `$SEATUNNEL_HOME` is `/opt/seatunnel`
 
-## Use Cases
+#### From inside the container:
 
-Explore real-world use cases of SeaTunnel, such as Weibo, Tencent Cloud, Sina, Sogou, and Yonghui Superstores. More use cases can be found on the [SeaTunnel Blog](https://seatunnel.apache.org/blog).
+* Run the following command to get an interactive bash shell in the container:
 
-## Code of Conduct
+```
+docker exec -it ibmdatasynchronization bash
+```
 
-Participate in this project in accordance with the Contributor Covenant [Code of Conduct](https://www.apache.org/foundation/policies/conduct).
+* Create a config file if it doesn't exist.
 
-## Contributors
+* Run the following command to deploy the connector configuration file:
 
-We appreciate all developers for their contributions. See the [List Of Contributors](https://github.com/apache/seatunnel/graphs/contributors).
+```
+$SEATUNNEL_HOME/bin/seatunnel.sh --config /path/to/config/file
+```
+
+where `$SEATUNNEL_HOME` is `/opt/seatunnel`
+
+## Restarting the container:
+
+In case a running container stops or exits, perform either of the following steps to restart the container:
+
+### Restarting as the old container:
+
+* Run the following command to get the stopped/exited container ID:
+
+```
+docker ps -a
+```
+
+* Run the following command to start the stopped container:
+
+```
+docker start ibmdatasynchronization
+```
+
+
+* Check if the container is up and running by issuing the following command:
+
+```
+docker ps -a
+```
+
+### Restarting as a new container:
+
+* Run the following command to deploy a new IBM Data Synchronization container without any data loss from the stopped container:
+
+```
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+```
+where `<user_data>` is the persistent volume for the user data in the stopped container.
+
+* Check if the container is up and running by issuing the following command:
+
+```
+docker ps -a
+```
+
+## Updating the container:
+
+In case you want to update the container, perform the following steps:
+
+* Stop the container that needs to be updated:
+
+```
+docker stop ibmdatasynchronization
+```
+
+* Pull the version of the IBM Data Synchronization image that you want to update your container to:
+
+```
+docker pull ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+```
+
+* Run the following command to deploy a IBM Data Synchronization container from this new image without any data loss from the stopped container:
+
+```
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name ibmdatasynchronization -p 8801:8801 ghcr.io/support4oss/ibmseatunnel:datasynchronization-<version>
+```
+where `<user_data>` is the persistent volume for the user data in the stopped container.
+
+* Check if the container is up and running by issuing the following command:
+
+```
+docker ps -a
+```
+
+# What's new in datasynchronization-2.3.6.1
+
+* **SQL-Based Task Creation**: Support for creating IBM Data Synchronization tasks using SQL, in addition to the existing HOCON format.
+* **Kafka as Virtual Table**: Kafka topics can be managed as virtual tables, enabling real-time data processing and flexible transformations within the IBM Data Synchronization interface.
+* **Full SQL Transformation Support**: Improved support for SQL transformations to address integration job issues, with a structured graphical interface for managing data pipelines.
+* **WatsonX.data Integration**: Enhanced ETL capabilities and real-time data transformation to integrate with WatsonX.data for streamlined data management and analytics.
+* **Hazelcast Cluster and Database Connectivity Dashboard**: New dashboard to monitor Hazelcast cluster health and database connectivity, tracking key metrics like active nodes, connection counts, and system load.
+* **User-Defined Parameter Functions and New Connectors**: Added support for user-defined parameter functions and multiple connectors (e.g., Presto, Db2, Trino Sink), along with updates to SQL transform functionality and Zeta Engine.
+
 
 ## How to Compile
 
 Refer to this [Setup](docs/en/contribution/setup.md) for compilation instructions.
 
-## Contact Us
+## How to Contribute
 
-- Mail list: **dev@seatunnel.apache.org**. Subscribe by sending an email to `dev-subscribe@seatunnel.apache.org`.
+- Contact us at: **venkataneehar@ibm.com**, **athira.k.m@ibm.com**
 
-- Slack: [Join SeaTunnel Slack](https://s.apache.org/seatunnel-slack)
 
-- Twitter: [ASFSeaTunnel on Twitter](https://twitter.com/ASFSeaTunnel)
-
-## Landscapes
-
-SeaTunnel enriches the [CNCF CLOUD NATIVE Landscape](https://landscape.cncf.io/?landscape=observability-and-analysis&license=apache-license-2-0).
-
-## Apache SeaTunnel Web Project
+## DataSynchronization-Web Project
 
 SeaTunnel Web is a web project that provides visual management of jobs, scheduling, running and monitoring capabilities. It is developed based on the SeaTunnel Connector API and the SeaTunnel Zeta Engine. It is a web project that can be deployed independently. It is also a sub-project of SeaTunnel.
-For more information, please refer to [SeaTunnel Web](https://github.com/apache/seatunnel-web)
+For more information, please refer to [DataSynchronization-Web](https://github.com/IBM-developers/DataSynchronization-Web)
 
-## Our Users
 
-Companies and organizations worldwide use SeaTunnel for research, production, and commercial products. Visit our [Users](https://seatunnel.apache.org/user) for more information.
+# Troubleshooting
 
-## License
-
-[Apache 2.0 License](LICENSE)
-
-## Frequently Asked Questions
-
-### 1. How do I install SeaTunnel?
-
-Follow the [Installation Guide](https://seatunnel.apache.org/docs/2.3.3/start-v2/locally/deployment/) on our website to get started.
-
-### 2. How can I contribute to SeaTunnel?
-
-We welcome contributions! Please refer to our [Contribution Guidelines](https://github.com/apache/seatunnel/blob/dev/docs/en/contribution/coding-guide.md) for details.
-
-### 3. How do I report issues or request features?
-
-You can report issues or request features on our [GitHub Repository](https://github.com/apache/seatunnel/issues).
-
-### 4. Can I use SeaTunnel for commercial purposes?
-
-Yes, SeaTunnel is available under the Apache 2.0 License, allowing commercial use.
-
-### 5. Where can I find documentation and tutorials?
-
-Our [Official Documentation](https://seatunnel.apache.org/docs) includes detailed guides and tutorials to help you get started.
-
-### 7. Is there a community or support channel?
-
-Join our Slack community for support and discussions: [SeaTunnel Slack](https://s.apache.org/seatunnel-slack).
+* If you face any issues, use the following link to register and post the issue: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
