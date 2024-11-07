@@ -1,0 +1,1 @@
+import{K as t,g as c,by as r,cc as u,cd as i}from"./index-5e2885e4.js";function f(n){const{mergedLocaleRef:o,mergedDateLocaleRef:a}=t(r,null)||{},d=c(()=>{var e,l;return(l=(e=o==null?void 0:o.value)===null||e===void 0?void 0:e[n])!==null&&l!==void 0?l:u[n]});return{dateLocaleRef:c(()=>{var e;return(e=a==null?void 0:a.value)!==null&&e!==void 0?e:i}),localeRef:d}}export{f as u};
