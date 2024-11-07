@@ -4,7 +4,8 @@
 
 ### What is DataSynchronization?
 
-DataSynchronization is an effortlessly navigable, exceptionally high-functioning data integration solution designed for seamless real-time synchronization of extensive datasets. It excels in the stable and efficient synchronization of tens of billions of records on a daily basis. IBM Data Synchronization combines the power of SeaTunnel with extensive database architecture of IBM Storage Solutions to provide a seamless data integration experience.
+DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. IBM Data Synchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
+
 
 * IBM Community Blogpost: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/06/ibm-data-synchronisation-launch-announcement
 * User Guide for the DataSynchronization UI: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
@@ -14,6 +15,8 @@ DataSynchronization is an effortlessly navigable, exceptionally high-functioning
 In the realm of modern data management, DataSynchronization proves to be an essential tool. By combining the capabilities of [Apache SeaTunnel OSS](https://seatunnel.apache.org/) with the functionality of IBM UI, it offers reliable performance, a user-friendly design, and real-time synchronization, along with other key features.
 
 For enterprises and users grappling with the complexities of contemporary data management, DataSynchronization emerges as a practical solution. Serving as a one-step solution for Data Integration and Synchronization needs, it provides a straightforward approach to address the challenges associated with managing data in today's landscape. Whether you're dealing with intricate datasets or streamlining data processes, DataSynchronization is a strategic choice for effective and efficient data management.
+
+*More here to call out what we do in addition to Apache Seatunnel* Why should they use this instead of going directly to Apache Seatunnel? Security vulnerabilities, bug fixes, Better UI? How is better UI? Unit testing? QA? Containerization easy to consume/deploy? Anything else for value add?
 
 ## How do I download DataSynchronization?
 
@@ -56,9 +59,10 @@ docker volume ls
 ### Step 4
 
 Get the Docker container up and running using the following command:
+**Add some information of what is MYSQL_ROOT_PASSWORD** Can we use this opportunity to set UI password
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=<your_password>  -e "TZ=<your timezone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the volume created for storing user data
 
@@ -82,6 +86,7 @@ docker logs datasynchronization
 ```
 
 ## Deploying a connector plugin using a config file
+***Need details for CLI here. Or point to the userguide that has it? Tested validated procedures here
 
 ### From the UI:
 
@@ -91,9 +96,11 @@ where `<host_ip>` is the IP address of the host machine.
 
 The login credentials to access the UI are: 
 * `Username: admin`
-* `Password: IBM@DATA#SYNC@2024`
+* `Password: IBM@DATA#SYNC@2024` <--- security violation.. **cannot use fixed password that we publically publish. Look above for docker run and perhaps set password from that**
 
 ### From the command line:
+** Need this filled out with validated procedure **
+
 
 #### From the host machine:
 
