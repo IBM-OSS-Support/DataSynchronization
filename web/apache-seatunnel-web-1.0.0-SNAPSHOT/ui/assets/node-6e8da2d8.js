@@ -1,0 +1,1 @@
+import{e as t,K as n,p as e}from"./index-5e2885e4.js";const o={"dag-node":"_dag-node_1j1t7_17","dag-node-label":"_dag-node-label_1j1t7_28"},l=t({name:"Node",setup(){const a=n("getNode")(),{name:d}=a.getData();return()=>e("div",{class:o["dag-node"]},[e("span",{class:o["dag-node-label"]},[d])])}});export{l as default};

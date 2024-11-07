@@ -1,0 +1,1 @@
+import{M as u}from"./index-5e2885e4.js";const s=o=>{const e=[],n=u();return n.getSequenceColumn&&e.push({title:"#",key:"index",render:(t,r)=>r+1}),n.getDataUniqueValue&&e.push(...o.map(t=>({title:t.title,key:t.key}))),e};export{s as g};
