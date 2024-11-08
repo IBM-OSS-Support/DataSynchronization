@@ -499,7 +499,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <!-- No need to specify a version here as it will inherit from dependencyManagement -->
+        </dependency>
         <!-- ***************** slf4j & provider & bridges start ***************** -->
         <dependency>
             <groupId>org.slf4j</groupId>

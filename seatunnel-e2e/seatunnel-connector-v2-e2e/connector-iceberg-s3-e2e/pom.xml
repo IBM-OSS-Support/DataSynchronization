@@ -81,6 +81,12 @@
             <artifactId>hadoop-aws</artifactId>
             <version>${hadoop3.version}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
