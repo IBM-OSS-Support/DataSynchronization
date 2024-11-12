@@ -46,6 +46,12 @@ Compile the code using below commands to create binary
    sh build.sh code
  ```
  Then you can find the installer package in dir `seatunnel-web-dist/target/apache-seatunnel-web-${project.version}.tar.gz`.
+
+ 
+ `Note:  If you want to use container for deploy DataSynchronization please follow the link for the next step`
+ 
+  [setupdockerimage.md](setupdockerimage.md)
+
 ### Deploy DataSynchronization
 #### Deploy DataSynchronization engine
 * ##### Unzip the tar file for engine 
@@ -54,6 +60,7 @@ Compile the code using below commands to create binary
 cd DataSynchronization/seatunnel-dist/target/
 tar -xvf apache-seatunnel-${project.version}.tar.gz
 ```
+
 * ##### Config SEATUNNEL_HOME
   
 You can config SEATUNNEL_HOME by add /etc/profile.d/seatunnel.sh file. The content of /etc/profile.d/seatunnel.sh
@@ -79,9 +86,9 @@ mkdir -p $SEATUNNEL_HOME/logs
 ```
 
 ### Run Simple Example using local mode
-make sure the test config file is present inside `$SEATUNNEL_HOME/config directory` or add Job Config File to define a job
+Make sure the test config file is present inside `$SEATUNNEL_HOME/config directory` or add Job Config File to define a job
 
-sample config file
+Sample config file
 
 ```
 env {
@@ -168,7 +175,7 @@ Username: admin
 Password: IBM@DATA#SYNC@2024
 
 
-refer the link for how to use [UI](https://github.com/IBM-developers/DataSynchronization/tree/main#from-the-ui)
+Refer the link for how to use [UI](https://github.com/IBM-developers/DataSynchronization/tree/main#from-the-ui)
  
 
 Note: we are using single node for setting up engine and web if you need to use multiple nodes for engine and web please refer[Apache Seatunnel](https://github.com/apache/seatunnel-web?tab=readme-ov-file#314-deploy-seatunnel-zeta-client-in-seatunnel-web-run-node)`
