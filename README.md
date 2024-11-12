@@ -95,7 +95,7 @@ docker logs datasynchronization
 ### From the command line:
 
 
- * From the host machine:
+### From the host machine:
 
 Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
