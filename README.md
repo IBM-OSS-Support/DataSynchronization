@@ -16,18 +16,23 @@ In the realm of modern data management, DataSynchronization proves to be an esse
 
 For enterprises and users grappling with the complexities of contemporary data management, DataSynchronization emerges as a practical solution. Serving as a one-step solution for Data Integration and Synchronization needs, it provides a straightforward approach to address the challenges associated with managing data in today's landscape. Whether you're dealing with intricate datasets or streamlining data processes, DataSynchronization is a strategic choice for effective and efficient data management.
 
-*More here to call out what we do in addition to Apache Seatunnel* Why should they use this instead of going directly to Apache Seatunnel? Security vulnerabilities, bug fixes, Better UI? How is better UI? Unit testing? QA? Containerization easy to consume/deploy? Anything else for value add?
+DataSynchronization offers a containerized solution for data integration and synchronization, making it easy to deploy and scale across environments. With improved security, user-friendly UI, built-in testing, and seamless integration, it ensures faster deployments and better management of complex data workflows.
+
 
 ## How do I download DataSynchronization?
 
 ### Step 1
 
-Pull the image from Docker Hub by running the following command:
+Pull the image from our GHCR  by running the following command:
 
+for docker
 ```
 docker pull ghcr.io/ibm-developers/datasynchronization:<version>
 ```
-
+for podman
+```
+podman pull ghcr.io/ibm-developers/datasynchronization:<version>
+```
 Example:
 ```
 docker pull ghcr.io/ibm-developers/datasynchronization:2.3.6.1
@@ -40,7 +45,7 @@ Check the image is pulled by running the command:
 ```
 docker images
 ```
-
+or 
 ### Step 3
 
 Create the following persistent volumes:
@@ -86,23 +91,11 @@ docker logs datasynchronization
 ```
 
 ## Deploying a connector plugin using a config file
-***Need details for CLI here. Or point to the userguide that has it? Tested validated procedures here
-
-### From the UI:
-
-Access the UI using the following link: `http://<host_ip>:8801/ui/`
-
-where `<host_ip>` is the IP address of the host machine. 
-
-The login credentials to access the UI are: 
-* `Username: admin`
-* `Password: IBM@DATA#SYNC@2024` <--- security violation.. **cannot use fixed password that we publically publish. Look above for docker run and perhaps set password from that**
 
 ### From the command line:
-** Need this filled out with validated procedure **
 
 
-#### From the host machine:
+### From the host machine:
 
 Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
@@ -160,7 +153,7 @@ docker ps -a
 * Run the following command to deploy a new DataSynchronization container without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
@@ -189,7 +182,7 @@ docker pull ghcr.io/ibm-developers/datasynchronization:<version>
 * Run the following command to deploy a DataSynchronization container from this new image without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=Asia/Kolkata" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
@@ -198,6 +191,20 @@ where `<user_data>` is the persistent volume for the user data in the stopped co
 ```
 docker ps -a
 ```
+
+### From the UI:
+
+Access the UI using the following link: `http://<host_ip>:8801/ui/`
+
+where `<host_ip>` is the IP address of the host machine. 
+
+The login credentials to access the UI are: 
+* `Username: admin`
+* `Password: IBM@DATA#SYNC@2024` 
+
+Refer the below video for how to use Datasynchronization-UI
+
+![Datasynchronization-ui](media/Datasynchronization-ui.gif)
 
 # What's new in datasynchronization-2.3.6.1
 
@@ -209,22 +216,13 @@ docker ps -a
 * **User-Defined Parameter Functions and New Connectors**: Added support for user-defined parameter functions and multiple connectors (e.g., Presto, Db2, Trino Sink), along with updates to SQL transform functionality and Zeta Engine.
 
 For more details refer to the [Announcement Blog](https://ibm.ent.box.com/notes/1654272849437)
-
-
-## How to Compile
-
-Refer to this [Setup](docs/en/contribution/setup.md) for compilation instructions.
+## How to Create Docker image 
+Refer to this [setup docker image](docs/en/contribution/setupdockerimage.md) to create your own docker image 
 
 ## How to Contribute
-
-- Contact us at: **venkataneehar@ibm.com**, **athira.k.m@ibm.com**
-
-
-## DataSynchronization-Web Project
-
-SeaTunnel Web is a web project that provides visual management of jobs, scheduling, running and monitoring capabilities. It is developed based on the SeaTunnel Connector API and the SeaTunnel Zeta Engine. It is a web project that can be deployed independently. It is also a sub-project of SeaTunnel.
-For more information, please refer to [DataSynchronization-Web](https://github.com/IBM-developers/DataSynchronization-Web)
-
+Refer to this [Guildlines](docs/en/contribution/CONTRIBUTING.md) to contribute to our project.
+## Contact Us 
+-  at: **venkataneehar@ibm.com**, **athira.k.m@ibm.com**
 
 # Troubleshooting
 
