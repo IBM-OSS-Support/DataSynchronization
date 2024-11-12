@@ -16,11 +16,11 @@ Steps to build image:
  
   * #### To build the binary for Engine follow the below steps 
 
-    change to the project directory
+    Change to the project directory
      ```
      cd DataSynchronization
      ```
-     compile the code using below commands to create binary
+     Compile the code using below commands to create binary
     ```
       mvn spotless:apply 
      ./mvnw -U -T 1C clean install -DskipTests -D"maven.test.skip"=true -D"maven.javadoc.skip"=true -D"checkstyle.skip"=true -D"license.skipAddThirdParty"
@@ -45,9 +45,9 @@ Steps to build image:
       To create the image we need to copy both of the binaries in to the directory where Dockerfile is present `DataSynchronization/docker`
    4. ### Build the image
 
-      use the below command to build the image using podman
+      Use the below command to build the image using podman
       ```
       cd  DataSynchronization/docker
       podman build -t imagename:tag .
       ```
-      for testing and using the image you can follow the below link [image testing](https://github.com/IBM-developers/DataSynchronization#step-3)
+      For testing and using the image you can follow the below link [image testing](https://github.com/IBM-developers/DataSynchronization#step-3)
