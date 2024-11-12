@@ -168,8 +168,8 @@ Username: admin
 Password: IBM@DATA#SYNC@2024
 
 
-refer the below link for how to use UI >>>>
-
+refer the link for how to use [UI](https://github.com/IBM-developers/DataSynchronization/tree/main#from-the-ui)
+ 
 
 Note: we are using single node for setting up engine and web if you need to use multiple nodes for engine and web please refer[Apache Seatunnel](https://github.com/apache/seatunnel-web?tab=readme-ov-file#314-deploy-seatunnel-zeta-client-in-seatunnel-web-run-node)`
 refer below link for the setup using [JetBrains IntelliJ IDEA](https://github.com/apache/seatunnel/blob/dev/docs/en/contribution/setup.md#set-up-develop-environment)

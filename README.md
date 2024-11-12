@@ -204,7 +204,7 @@ The login credentials to access the UI are:
 
 Refer the below video for how to use Datasynchronization-UI
 
-![installollama](media/Datasynchronization-ui.gif)
+![Datasynchronization-ui](media/Datasynchronization-ui.gif)
 
 # What's new in datasynchronization-2.3.6.1
 
