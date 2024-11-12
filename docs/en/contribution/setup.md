@@ -1,10 +1,10 @@
 # Set Up Develop Environment
 
 In this section, we are going to show you how to set up your development environment for DataSynchronization, and then run a simple
-example in your JetBrains IntelliJ IDEA.
+example in your machine using Terminal.
 
-> You can develop or test DataSynchronization code in any development environment that you like, but here we use
-> [JetBrains IDEA](https://www.jetbrains.com/idea/) as an example to teach you to step by step.
+> You can develop or test DataSynchronization code in any development environment that you like, but here we use Terminal to step and deploy DataSynchronization.
+
 
 ## Prepare
 
@@ -12,108 +12,165 @@ Before we start talking about how to set up the environment, we need to do some 
 have installed the following software:
 
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) installed.
-* [Java](https://www.java.com/en/download/) ( JDK8/JDK11 are supported by now) installed and `JAVA_HOME` set.
-* [Scala](https://www.scala-lang.org/download/2.11.12.html) (only scala 2.11.12 supported by now) installed.
-* [JetBrains IDEA](https://www.jetbrains.com/idea/) installed.
-
-## Set Up
-
+* [Java](https://www.java.com/en/download/) ( JDK8/JDK11 and other versions higher than Java 8 can theoretically work)) installed and `JAVA_HOME` set.
+* [Maven](https://maven.apache.org/install.html) installed.
+* [mysql](https://www.mysql.com/) installed
+## Set Up DataSynchronization using CLI
 ### Clone the Source Code
 
-First of all, you need to clone the SeaTunnel source code from [GitHub](https://github.com/IBM-developers/DataSynchronization).
-
-```shell
-git clone git@github.com:IBM-developers/DataSynchronization.git
+ Clone the SeaTunnel source code from [GitHub](https://github.com/IBM-developers/DataSynchronization).
 ```
-
-### Install Subproject Locally
-
-After cloning the source code, you should run the `./mvnw` command to install the subproject to the maven local repository.
-Otherwise, your code could not start in JetBrains IntelliJ IDEA correctly.
-
-```shell
-./mvnw -U -T 1C clean install -DskipTests -D"maven.test.skip"=true -D"maven.javadoc.skip"=true -D"checkstyle.skip"=true -D"license.skipAddThirdParty"
+ git clone https://github.com/IBM-developers/DataSynchronization.git
 ```
-
+### Code Style
+DataSynchronization uses `Spotless` for code style and format checks. You can run the following command and `Spotless` will automatically fix the code style and formatting errors for you:
+```
+./mvnw spotless:apply
+```
 ### Building DataSynchronization From Source
 
 After you install the maven, you can use the following command to compile and package.
+* #### To build the binary for Engine follow the below steps
+```
+./mvnw -U -T 1C clean install -DskipTests -D"maven.test.skip"=true -D"maven.javadoc.skip"=true -D"checkstyle.skip"=true -D"license.skipAddThirdParty"
+```
+Then you can find the installer package in dir `seatunnel-dist/target/apache-seatunnel-${project.version}.tar.gz`.
+* #### To build the binary for Web UI follow the below steps
+Change to the project directory for web
+```
+cd DataSynchronization/web
+```
+Compile the code using below commands to create binary 
+ ```
+   mvn spotless:apply
+   sh build.sh code
+ ```
+ Then you can find the installer package in dir `seatunnel-web-dist/target/apache-seatunnel-web-${project.version}.tar.gz`.
+### Deploy DataSynchronization
+#### Deploy DataSynchronization engine
+* ##### Unzip the tar file for engine 
 
 ```
-mvn clean package -pl seatunnel-dist -am -Dmaven.test.skip=true
+cd DataSynchronization/seatunnel-dist/target/
+tar -xvf apache-seatunnel-${project.version}.tar.gz
+```
+* ##### Config SEATUNNEL_HOME
+  
+You can config SEATUNNEL_HOME by add /etc/profile.d/seatunnel.sh file. The content of /etc/profile.d/seatunnel.sh
+```
+export SEATUNNEL_HOME=${seatunnel install path}
+export PATH=$PATH:$SEATUNNEL_HOME/bin
+```
+* ##### Config SeaTunnel Engine JVM options
+
+SeaTunnel Engine supported two ways to set jvm options.
+
+1.Add JVM Options to $SEATUNNEL_HOME/bin/seatunnel-cluster.sh.
+Modify the $SEATUNNEL_HOME/bin/seatunnel-cluster.sh file and add JAVA_OPTS="-Xms2G -Xmx2G" in the first line.
+
+2.Add JVM Options when start SeaTunnel Engine. For example seatunnel-cluster.sh -DJvmOption="-Xms2G -Xmx2G"
+
+### Start SeaTunnel Engine Server Node
+   Engine be started by a daemon with -d.
+
+```
+mkdir -p $SEATUNNEL_HOME/logs
+./bin/seatunnel-cluster.sh -d
 ```
 
-### Building Sub Module
+### Run Simple Example using local mode
+make sure the test config file is present inside `$SEATUNNEL_HOME/config directory` or add Job Config File to define a job
 
-If you want to build submodules separately, you can use the following command to compile and package.
+sample config file
 
-```ssh
-# This is an example of building the redis connector separately
-
- mvn clean package -pl seatunnel-connectors-v2/connector-redis -am -DskipTests -T 1C
 ```
-
-### Install JetBrains IDEA Scala Plugin
-
-Now, you can open your JetBrains IntelliJ IDEA and explore the source code. But before building Scala code in IDEA,
-you should also install JetBrains IntelliJ IDEA's [Scala Plugin](https://plugins.jetbrains.com/plugin/1347-scala).
-See [Install Plugins For IDEA](https://www.jetbrains.com/help/idea/managing-plugins.html#install-plugins) if you want to.
-
-### Install JetBrains IDEA Lombok Plugin
-
-Before running the following example, you should also install JetBrains IntelliJ IDEA's [Lombok plugin](https://plugins.jetbrains.com/plugin/6317-lombok).
-See [install plugins for IDEA](https://www.jetbrains.com/help/idea/managing-plugins.html#install-plugins) if you want to.
-
-### Code Style
-
-DataSynchronization uses `Spotless` for code style and format checks. You can run the following command and `Spotless` will automatically fix the code style and formatting errors for you:
-
-```shell
-./mvnw spotless:apply
-```
-
-You could copy the `pre-commit hook` file `/tools/spotless_check/pre-commit.sh` to your `.git/hooks/` directory so that every time you commit your code with `git commit`, `Spotless` will automatically fix things for you.
-
-## Run Simple Example
-
-After all the above things are done, you just finish the environment setup and can run an example we provide to you out
-of box. All examples are in module `seatunnel-examples`, you could pick one you are interested in, [Running Or Debugging
-It In IDEA](https://www.jetbrains.com/help/idea/run-debug-configuration.html) as you wish.
-
-Here we use `seatunnel-examples/seatunnel-flink-connector-v2-example/src/main/java/org/apache/seatunnel/example/flink/v2/SeaTunnelApiExample.java`
-as an example, when you run it successfully you can see the output as below:
-
-```log
-+I[Ricky Huo, 71]
-+I[Gary, 12]
-+I[Ricky Huo, 93]
-...
-...
-+I[Ricky Huo, 83]
-```
-
-## What's More
-
-All our examples use simple source and sink to make it less dependent and easy to run. You can change the example configuration
-in `resources/examples`. You can change your configuration as below, if you want to use PostgreSQL as the source and
-sink to console.
-
-```conf
 env {
-  parallelism = 1
+  execution.parallelism = 1
+  job.mode = "BATCH"
 }
 
 source {
-  JdbcSource {
-    driver = org.postgresql.Driver
-    url = "jdbc:postgresql://host:port/database"
-    username = postgres
-    query = "select * from test"
+  FakeSource {
+    result_table_name = "fake"
+    row.num = 16
+    schema = {
+      fields {
+        name = "string"
+        age = "int"
+      }
+    }
+  }
+}
+
+transform {
+  FieldMapper {
+    source_table_name = "fake"
+    result_table_name = "fake1"
+    field_mapper = {
+      age = age
+      name = new_name
+    }
   }
 }
 
 sink {
-  ConsoleSink {}
+  Console {
+    source_table_name = "fake1"
+  }
 }
 ```
+
+* ##### Submit a Job in engine
+
+```
+ $SEATUNNEL_HOME/bin/seatunnel.sh --config $SEATUNNEL_HOME/config/v2.batch.config.template -m local
+```
+### Deploy DataSynchronization web
+* Unzip the tar file for
+Web
+```
+cd DataSynchronization/web/
+tar -xvf apache-seatunnel-web-${project.version}.tar.gz
+```
+* Init database
+1.Edit apache-seatunnel-web-${project.version}/script/seatunnel_server_env.sh file, Complete the installed database address, port, username, and password.
+  Here is an example:
+```
+export HOSTNAME="localhost"
+export PORT="3306"
+export USERNAME="root"
+export PASSWORD="123456"
+```
+2.Run init shell 
+
+```
+sh apache-seatunnel-web-${project.version}/script/init_sql.sh
+```
+ If there are no errors during operation, it indicates successful initialization.
+ 
+ * Config application and Run SeaTunnel Web Backend Server
+Edit `apache-seatunnel-web-${project.version}/conf/application`.yml Fill in the database connection information and DS interface related information in the file.
+Edit `apache-seatunnel-web-${project.version}/conf/application.yml` , add jwt.secretKey value. Eg:`https://github.com/IBM-developers/DataSynchronization` Notice that cannot be too short).
+
+* Copy `$SEATUNNEL_HOME/config/hazelcast-client.yaml`to `apache-seatunnel-web-${project.version}/conf/`
+* Copy `$SEATUNNEL_HOME/connectors/plugin-mapping.properties` file to `apache-seatunnel-web-${project.version}/conf/` dir.
+
+* ### Start SeaTunnel Web
+```
+ cd apache-seatunnel-web-${project.version}
+ sh bin/seatunnel-backend-daemon.sh start
+```
+Accessing in a browser http://127.0.0.1:8801/ui/, 
+
+The login credentials to access the UI are:
+
+Username: admin
+Password: IBM@DATA#SYNC@2024
+
+
+refer the below link for how to use UI >>>>
+
+
+Note: we are using single node for setting up engine and web if you need to use multiple nodes for engine and web please refer[Apache Seatunnel](https://github.com/apache/seatunnel-web?tab=readme-ov-file#314-deploy-seatunnel-zeta-client-in-seatunnel-web-run-node)`
+refer below link for the setup using [JetBrains IntelliJ IDEA](https://github.com/apache/seatunnel/blob/dev/docs/en/contribution/setup.md#set-up-develop-environment)
 
