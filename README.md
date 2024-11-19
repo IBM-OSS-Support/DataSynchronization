@@ -4,7 +4,7 @@
 
 ### What is DataSynchronization?
 
-DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. IBM Data Synchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
+DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. Data Synchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
 
 
 * DataSynchronization Key Updates: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/11/18/datasynchronization-ce-key-updates
@@ -64,12 +64,13 @@ docker volume ls
 ### Step 4
 
 Get the Docker container up and running using the following command:
-**Add some information of what is MYSQL_ROOT_PASSWORD** Can we use this opportunity to set UI password
 
 ```
 docker run -d  -e MYSQL_ROOT_PASSWORD=<your_password>  -e "TZ=<your timezone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
 ```
-where `<user_data>` is the volume created for storing user data
+Set the MySQL root password using MYSQL_ROOT_PASSWORD=<your_password>, where <your_password> should be replaced with a secure password.
+
+The `<user_data>` is the volume created for storing user data
 
 ```
 NOTE:
@@ -95,7 +96,7 @@ docker logs datasynchronization
 ### From the command line:
 
 
-### From the host machine:
+- **From the host machine:** 
 
 Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
@@ -192,7 +193,7 @@ where `<user_data>` is the persistent volume for the user data in the stopped co
 docker ps -a
 ```
 
-### From the UI:
+- **From the UI:**
 
 Access the UI using the following link: `http://<host_ip>:8801/ui/`
 
