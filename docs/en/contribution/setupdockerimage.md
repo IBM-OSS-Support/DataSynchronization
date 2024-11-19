@@ -4,7 +4,7 @@
  Podman is installed and it is running.
 See the [Podman website](https://podman.io/docs/installation) for installation instructions.
 
-`Note: We can use docker as well for build and run the container. Please use Podmanif you need to push the image in the registry and reuse in multiple environments.`
+`Note: We can use docker as well for build and run the container. Please use Podman if you need to push the image in the registry and reuse in multiple environments.`
 ## Build
 Steps to build image:
 
