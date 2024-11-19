@@ -96,7 +96,7 @@ docker logs datasynchronization
 ### From the command line:
 
 
-- **From the host machine:** 
+### From the host machine:
 
 Make sure the configuration file exists inside the container, if not, use docker cp or place the config file in the shared mount volume between the host and the container and run the following command:
 
@@ -193,7 +193,8 @@ where `<user_data>` is the persistent volume for the user data in the stopped co
 docker ps -a
 ```
 
-- **From the UI:**
+ ### From the UI :
+
 
 Access the UI using the following link: `http://<host_ip>:8801/ui/`
 
