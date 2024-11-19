@@ -4,7 +4,7 @@
 
 ### What is DataSynchronization?
 
-DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. Data Synchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
+DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. DataSynchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
 
 
 * DataSynchronization Key Updates: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/11/18/datasynchronization-ce-key-updates
