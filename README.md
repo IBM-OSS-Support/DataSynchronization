@@ -7,7 +7,7 @@
 DataSynchronization is easy to use, high performing data integration solution designed for seamless real-time synchronization of large datasets. It excels in consistent synchronization of tens of billions of records on a daily basis with zero data loss. IBM Data Synchronization combines the power of Open Source Apache SeaTunnel with support for hundreds of data connectors to provide a seamless data integration experience.
 
 
-* IBM Community Blogpost: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/06/ibm-data-synchronisation-launch-announcement
+* DataSynchronization Key Updates: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/11/18/datasynchronization-ce-key-updates
 * User Guide for the DataSynchronization UI: https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/01/08/creating-your-first-ibm-data-synchronization-job
 
 ### Why do we need DataSynchronization?
@@ -215,7 +215,7 @@ Refer the below video for how to use Datasynchronization-UI
 * **Hazelcast Cluster and Database Connectivity Dashboard**: New dashboard to monitor Hazelcast cluster health and database connectivity, tracking key metrics like active nodes, connection counts, and system load.
 * **User-Defined Parameter Functions and New Connectors**: Added support for user-defined parameter functions and multiple connectors (e.g., Presto, Db2, Trino Sink), along with updates to SQL transform functionality and Zeta Engine.
 
-For more details refer to the [Announcement Blog](https://ibm.ent.box.com/notes/1654272849437)
+For more details refer to the [Announcement Blog](https://community.ibm.com/community/user/dataops/blogs/harsh-mittal/2024/11/18/datasynchronization-ce-key-updates)
 ## How to Create Docker image 
 Refer to this [setup docker image](docs/en/contribution/setupdockerimage.md) to create your own docker image 
 
