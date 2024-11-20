@@ -27,15 +27,15 @@ Pull the image from our GHCR  by running the following command:
 
 for docker
 ```
-docker pull ghcr.io/ibm-developers/datasynchronization:<version>
+docker pull ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 for podman
 ```
-podman pull ghcr.io/ibm-developers/datasynchronization:<version>
+podman pull ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 Example:
 ```
-docker pull ghcr.io/ibm-developers/datasynchronization:2.3.6.1
+docker pull ghcr.io/ibm-oss-support/datasynchronization:2.3.6.1
 ```
 
 ### Step 2
@@ -66,7 +66,7 @@ docker volume ls
 Get the Docker container up and running using the following command:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=<your_password>  -e "TZ=<your timezone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=<your_password>  -e "TZ=<your timezone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 Set the MySQL root password using MYSQL_ROOT_PASSWORD=<your_password>, where <your_password> should be replaced with a secure password.
 
@@ -154,7 +154,7 @@ docker ps -a
 * Run the following command to deploy a new DataSynchronization container without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
@@ -177,13 +177,13 @@ docker stop datasynchronization
 * Pull the version of the DataSynchronization image that you want to update your container to:
 
 ```
-docker pull ghcr.io/ibm-developers/datasynchronization:<version>
+docker pull ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 
 * Run the following command to deploy a DataSynchronization container from this new image without any data loss from the stopped container:
 
 ```
-docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-developers/datasynchronization:<version>
+docker run -d  -e MYSQL_ROOT_PASSWORD=your_password  -e "TZ=<your_time-zone>" -v <user_data>:/var/lib/mysql --name datasynchronization -p 8801:8801 ghcr.io/ibm-oss-support/datasynchronization:<version>
 ```
 where `<user_data>` is the persistent volume for the user data in the stopped container.
 
