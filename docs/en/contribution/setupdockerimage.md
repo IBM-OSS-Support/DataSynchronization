@@ -10,7 +10,7 @@ Steps to build image:
 
  1. ### Clone repo
   ```
-   git clone https://github.com/IBM-developers/DataSynchronization.git
+    git clone https://github.com/IBM-OSS-Support/DataSynchronization.git 
    ```
  2. ### Build the binary for the Engine and UI
  
