@@ -18,9 +18,9 @@ have installed the following software:
 ## Set Up DataSynchronization using CLI
 ### Clone the Source Code
 
- Clone the SeaTunnel source code from [GitHub](https://github.com/IBM-developers/DataSynchronization).
+ Clone the SeaTunnel source code from [GitHub](https://github.com/IBM-OSS-Support/DataSynchronization).
 ```
- git clone https://github.com/IBM-developers/DataSynchronization.git
+ git clone https://github.com/IBM-OSS-Support/DataSynchronization.git 
 ```
 ### Code Style
 DataSynchronization uses `Spotless` for code style and format checks. You can run the following command and `Spotless` will automatically fix the code style and formatting errors for you:
